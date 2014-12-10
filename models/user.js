@@ -6,8 +6,6 @@ module.exports = function(db, conn) {
         email       : String,
         password    : String,
         username    : String,
-        firstName   : String,
-        lastName    : String,
         displayName : String,
         bio         : String,
         location    : String,

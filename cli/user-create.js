@@ -14,8 +14,6 @@ var a = new CommandAsker([
     { key: 'email',         ask: 'email',           validators: [userValidator.email, userValidator.emailNotExist] },
     { key: 'password',      ask: 'password',        validators: [userValidator.password] },
     { key: 'username',      ask: 'username',        validators: [] },
-    { key: 'firstName',     ask: 'first name',      validators: [] },
-    { key: 'lastName',      ask: 'last name',       validators: [] },
     { key: 'displayName',   ask: 'display name',    validators: [] },
     { key: 'bio',           ask: 'bio',             validators: [] },
     { key: 'location',      ask: 'location',        validators: [] }
