@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('lodash');
 
 /**
@@ -5,15 +7,13 @@ var _ = require('lodash');
  *
  * @param {Request}     request
  * @param {Response}    response
- * @param {function}    next
  */
-var errorHandler = function(err, req, res, next) {
-
+var errorHandler = function(err, req, res) {
     console.log(err);
 
     var error = {};
     error.message = _.isString(err) ? err : (_.isObject(err) ? err.message : 'Unknown Error');
-    
+
     if (_.has(err, 'code')) {
         error.code = err.code;
     }

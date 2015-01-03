@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Push object to property of an object.
  * If the property doesn't exist, the property will be created.

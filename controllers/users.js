@@ -1,9 +1,8 @@
-var User            = require('../models').User,
-    userAdapter     = require('../adapter').User,
-    objectHelper    = require('../helpers/object'),
+'use strict';
+
+var objectHelper    = require('../helpers/object'),
     httpErrors      = require('../helpers/http.errors'),
     userService     = require('../services').User,
-    projectService  = require('../services').Project,
     stringValidator = require('../validator').String,
     userValidator   = require('../validator').User,
     errors          = require('../validator').Errors,
@@ -12,7 +11,7 @@ var User            = require('../models').User,
 
 /**
  * GET  /users/:id
- * 
+ *
  * Parameters:
  *  - id | Respect the format of Mongo's Id
  */
@@ -21,7 +20,7 @@ var show = function(req, res, next) {
         .then(function(value) {
             return userService.findOneReadOnlyById(value);
         })
-        .then(function (data) {
+        .then(function(data) {
             if (!data) {
                 return when.reject(new httpErrors.NotFound(errors.user.not_found));
             }
@@ -30,7 +29,6 @@ var show = function(req, res, next) {
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
-
         }).then(null, function(err) {
             if (_.has(err, 'code') && !(err instanceof httpErrors.NotFound)) {
                 return next(new httpErrors.BadRequest(err.message, err.code));
@@ -48,7 +46,6 @@ var show = function(req, res, next) {
  *  - username | Username to search
  */
 var index = function(req, res, next) {
-
     console.log('controller:index');
 
     var username = req.query.username;
@@ -58,8 +55,7 @@ var index = function(req, res, next) {
         userService
             .findOneReadOnlyByUsername(username)
             .then(function(user) {
-
-                if (null == user) {
+                if (user === null) {
                     return when.reject();
                 }
 
@@ -89,7 +85,46 @@ var index = function(req, res, next) {
     }
 };
 
+/**
+ * POST  /users
+ *
+ * Payload:
+ *  {
+"_id": "548897bff32113d9017a70f9",
+"email": "stanislas.chollet@gmail.com",
+ "username": "stan",
+ "firstName": "Stan",
+ "lastName": "Chollet",
+ "displayName": "Stan Chollet",
+ "bio": "Passionnate about travel, sport and development",
+ "location": "Paris, France",
+ "createdAt": "2014-12-10T18:58:07.640Z"
+ }
+ */
+var create = function(req, res) {
+    console.log('controller:create');
+
+    userValidator
+        .validate({
+            username: 'ke',
+            email: 'stan',
+            password: '0'
+        })
+        .then(function() {
+            console.log('User validation OK');
+        }, function(err) {
+            console.log(JSON.stringify(err));
+            console.log('User validation ERROR');
+        });
+
+    res
+        .contentType('application/json')
+        .status(200)
+        .send(JSON.stringify([]));
+};
+
 module.exports = {
     show: show,
-    index: index
+    index: index,
+    create: create
 };

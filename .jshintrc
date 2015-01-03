@@ -1,19 +1,39 @@
 {
-  "camelcase": true,
-  "immed": true,
-  "indent": 2,
-  "latedef": true,
-  "newcap": true,
-  "quotmark": "single",
-
-  "esnext": true,
-  "globalstrict": true,
-
-  "browser": true,
-  "node": true,
-
-  "globals": {
-    "require": false,
-    "__dirname": false
+  "node"     : true,
+  "browser"  : true,
+  "esnext"   : true,
+  "expr"     : true,
+  "bitwise"  : true,
+  "camelcase": false,
+  "curly"    : true,
+  "eqeqeq"   : true,
+  "immed"    : true,
+  "indent"   : 4,
+  "latedef"  : true,
+  "newcap"   : true,
+  "noarg"    : true,
+  "quotmark" : "single",
+  "undef"    : true,
+  "unused"   : true,
+  "strict"   : true,
+  "globals"  : {
+    "after"         : false,
+    "afterEach"     : false,
+    "before"        : false,
+    "beforeEach"    : false,
+    "browser"       : false,
+    "by"            : false,
+    "dataLayer"     : false,
+    "describe"      : false,
+    "element"       : false,
+    "FileAPI"       : false,
+    "Fixtures"      : false,
+    "inject"        : false,
+    "it"            : false,
+    "moment"        : false,
+    "sinon"         : false,
+    "require"       : false,
+    "module"        : false,
+    "process"       : false
   }
 }

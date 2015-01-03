@@ -1,3 +1,5 @@
+'use strict';
+
 var morgan              = require('morgan'),
     bodyParser          = require('body-parser'),
     methodOverride      = require('method-override'),
@@ -24,6 +26,7 @@ app.use(passport.initialize());
 
 // Routes protected
 app.route('/users').get(controllers.User.index);
+app.route('/users').post(controllers.User.create);
 app.route('/users/:id').get(controllers.User.show);
 
 // Handle error(s)

@@ -1,3 +1,5 @@
+'use strict';
+
 var userValidator       = require('./user'),
     stringValidator     = require('./string'),
     errors              = require('./errors');

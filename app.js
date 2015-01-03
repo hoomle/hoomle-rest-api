@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  *  _                    _                             _
  * | |__    ___    ___  | |  ___          __ _  _ __  (_)
@@ -11,5 +13,5 @@ var console     = require('console'),
     app         = require('./config/app');
 
 app.listen(app.get('port'), function() {
-    console.log("Listening on " + app.get('port'));
+    console.log('Listening on ' + app.get('port'));
 });

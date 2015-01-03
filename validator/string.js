@@ -1,3 +1,5 @@
+'use strict';
+
 var validator   = require('validator'),
     errors      = require('./errors'),
     when        = require('when');

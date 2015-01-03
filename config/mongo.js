@@ -1,7 +1,8 @@
-var configuration   = require('../config/configuration'),
-    mongoose        = require('mongoose');
+'use strict';
 
-var conn = mongoose.createConnection(configuration.mongodb);
+var configuration   = require('../config/configuration'),
+    mongoose        = require('mongoose'),
+    conn            = mongoose.createConnection(configuration.mongodb);
 
 module.exports = {
     connection: conn,

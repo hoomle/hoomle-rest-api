@@ -1,12 +1,12 @@
-var adapterUsers    = require('../adapter').User,
-    expect          = require("chai").expect;
+'use strict';
 
-describe('adapter.users', function(){
+var adapterUsers    = require('../../adapter/index').User,
+    expect          = require('chai').expect;
 
+describe('adapter.users', function() {
     it('hateoasize() - Add HATEOAS data to object', function() {
-
         var user = {
-            _id         : "534da334b9f6c07517f6cbb9",
+            _id         : '534da334b9f6c07517f6cbb9',
             email       : 'chuck.norris@god.com'
         };
 
@@ -43,7 +43,5 @@ describe('adapter.users', function(){
         expect(status)
             .to.have.property('href')
             .to.match(/\/users\/[0-9a-f]{24}\/status$/);
-
     });
-
 });

@@ -1,9 +1,10 @@
+'use strict';
+
 var BasicStrategy   = require('passport-http').BasicStrategy,
     User            = require('../models').User,
     userHelper      = require('../helpers/user');
 
 module.exports = function(passport) {
-
     /**
      *
      * @param {string}   username
@@ -11,11 +12,9 @@ module.exports = function(passport) {
      * @param {function} done
      */
     var callBackBasicStrategy = function(username, password, done) {
-
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        User.findOne({ 'email' :  username }, function(err, user) {
-
+        User.findOne({email :  username}, function(err, user) {
             // if there are any errors, return the error before anything else
             if (err) {
                 return done(err);

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Build string to field "Authorization" HTTP Request with username and password
  *

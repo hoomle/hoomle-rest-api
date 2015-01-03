@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Application configuration object
  *
@@ -6,7 +8,7 @@
 function Configuration() {
     this.env        = process.env.NODE_ENV || 'dev';
     this.port       = process.env.PORT || 5001;
-    this.host       = process.env.HOOLE_API_HOST || "localhost";
+    this.host       = process.env.HOOLE_API_HOST || 'localhost';
     this.mongodb    = process.env.HOOLE_API_MONGODB_PATH || 'mongodb://localhost/hoole';
 }
 
@@ -15,7 +17,7 @@ function Configuration() {
  */
 Configuration.prototype.getRootUrl = function() {
     var url = 'http://' + this.host;
-    url += (80 !== this.port) ? ':' + this.port : '';
+    url += (this.port !== 80) ? ':' + this.port : '';
     return url;
 };
 

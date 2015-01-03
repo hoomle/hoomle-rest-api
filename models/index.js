@@ -1,3 +1,5 @@
+'use strict';
+
 var user            = require('./user'),
     mongo           = require('../config/mongo');
 

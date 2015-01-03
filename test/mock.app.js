@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('../config/app');
 
 // Load data for tests
