@@ -3,12 +3,12 @@
 var validate        = require('./joi/validate'),
     userServices    = require('../services/user'),
     BimError        = require('../bim/bimError'),
+    errors          = require('../validator/errors'),
     joiSchema       = require('./joi/schema'),
     when            = require('when'),
     _               = require('lodash');
 
 var _userAlreadyExist = function(userValidated, bim, schema) {
-
     if (bim.has('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
         var resolved = {
             value: userValidated,
@@ -25,9 +25,9 @@ var _userAlreadyExist = function(userValidated, bim, schema) {
         .then(function(user) {
             if (user !== null) {
                 var bimError = new BimError(
-                    'user.already_exist',
+                    errors.user.email_already_exist.code,
                     'email',
-                    'An user already exist with this email'
+                    errors.user.email_already_exist.message
                 );
                 bim.add(bimError);
                 return when.reject({
@@ -41,9 +41,9 @@ var _userAlreadyExist = function(userValidated, bim, schema) {
             });
         }, function() {
             var bimError = new BimError(
-                'user.already_exist_fail',
+                errors.user.email_checking.code,
                 'email',
-                'internal error on email checking'
+                errors.user.email_checking.message
             );
             bim.add(bimError);
             return when.reject({

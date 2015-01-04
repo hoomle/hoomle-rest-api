@@ -40,4 +40,6 @@ Bim.prototype.render = function(format) {
     return engine(this);
 };
 
+Bim.prototype.isBim = true;
+
 module.exports = Bim;

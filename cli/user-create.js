@@ -5,16 +5,15 @@
 var CommandAsker    = require('command-asker'),
     cli             = require('../helpers/console'),
     userHelper      = require('../helpers/user'),
-    User            = require('../models').User,
-    userValidator   = require('../validator').User;
+    User            = require('../models').User;
 
 cli.banner();
 cli.ok('Interactive command to add new user');
 cli.line();
 
 var a = new CommandAsker([
-    {key: 'email',         ask: 'email',           validators: [userValidator.email, userValidator.emailNotExist]},
-    {key: 'password',      ask: 'password',        validators: [userValidator.password]},
+    {key: 'email',         ask: 'email',           validators: []},
+    {key: 'password',      ask: 'password',        validators: []},
     {key: 'username',      ask: 'username',        validators: []},
     {key: 'displayName',   ask: 'display name',    validators: []},
     {key: 'bio',           ask: 'bio',             validators: []},

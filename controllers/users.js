@@ -6,6 +6,8 @@ var objectHelper    = require('../helpers/object'),
     stringValidator = require('../validator').String,
     userValidator   = require('../validator').User,
     errors          = require('../validator').Errors,
+    NotFoundBim     = require('../bim/notFoundBim'),
+    InternalBim     = require('../bim/internalBim'),
     when            = require('when'),
     _               = require('lodash');
 
@@ -15,27 +17,34 @@ var objectHelper    = require('../helpers/object'),
  * Parameters:
  *  - id | Respect the format of Mongo's Id
  */
-var show = function(req, res, next) {
+var show = function(req, res) {
     stringValidator.isDocumentId(req.params.id)
         .then(function(value) {
             return userService.findOneReadOnlyById(value);
         })
         .then(function(data) {
             if (!data) {
-                return when.reject(new httpErrors.NotFound(errors.user.not_found));
+                return when.reject(new NotFoundBim(
+                    errors.user.not_found.code,
+                    errors.user.not_found.message
+                ));
             }
             data = objectHelper.removeProperties(['__v', 'password'], data);
-            // data = userAdapter.hateoasize(['self', 'status'], data);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
         }).then(null, function(err) {
-            if (_.has(err, 'code') && !(err instanceof httpErrors.NotFound)) {
-                return next(new httpErrors.BadRequest(err.message, err.code));
-            } else if (_.has(err, 'name') && err.name === 'CastError') {
-                return next(new httpErrors.BadRequest(errors.string.documentid_bad_format));
+            var bim;
+            if (err.isBim !== undefined) {
+                bim = err;
+            } else {
+                bim = new InternalBim();
             }
-            return next(err);
+
+            res
+                .contentType('application/json')
+                .status(bim.status)
+                .send(bim.render('json'));
         });
 };
 
