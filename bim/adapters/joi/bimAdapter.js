@@ -13,7 +13,7 @@ var _                   = require('lodash'),
 function bimAdapter(joiErrors) {
     var bim = new Bim();
 
-    if (_.has(joiErrors, 'details') && !_.isArray(joiErrors.details) && joiErrors.details.length < 1) {
+    if (_.has(joiErrors, 'details') && _.isArray(joiErrors.details) && joiErrors.details.length > 0) {
         _.forEach(joiErrors.details, function(error) {
             bim.add(bimErrorAdapter(error));
         });

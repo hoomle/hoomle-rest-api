@@ -14,7 +14,11 @@ function bimErrorAdapter(joiError) {
         return null;
     }
 
-    return new BimError(joiError.type, joiError.path);
+    return new BimError(
+        joiError.type,
+        joiError.path,
+        _.has(joiError, 'message') ? joiError.message : null
+    );
 }
 
 module.exports = bimErrorAdapter;

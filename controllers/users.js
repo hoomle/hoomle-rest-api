@@ -105,22 +105,18 @@ var create = function(req, res) {
     console.log('controller:create');
 
     userValidator
-        .validate({
-            username: 'ke',
-            email: 'stan',
-            password: '0'
-        })
-        .then(function() {
-            console.log('User validation OK');
+        .validate(req.body)
+        .then(function(resolved) {
+            res
+                .contentType('application/json')
+                .status(200)
+                .send(JSON.stringify(resolved.value));
         }, function(err) {
-            console.log(JSON.stringify(err));
-            console.log('User validation ERROR');
+            res
+                .contentType('application/json')
+                .status(err.bim.status)
+                .send(err.bim.render('json'));
         });
-
-    res
-        .contentType('application/json')
-        .status(200)
-        .send(JSON.stringify([]));
 };
 
 module.exports = {
