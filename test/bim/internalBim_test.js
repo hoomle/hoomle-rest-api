@@ -1,7 +1,6 @@
 'use strict';
 
 var InternalBim     = require('../../bim/internalBim'),
-    BimError        = require('../../bim/bimError'),
     expect          = require('chai').expect,
     errors          = require('../../validator/errors');
 
@@ -55,8 +54,6 @@ describe('InternalBim', function() {
     });
 
     it('render()', function() {
-        var internalBim = new InternalBim();
-
         // TODO Compare render data with raw data
         // expect(bim.render('json')).to.be.deep.equals({errors:[{code:'code',path:'my.path',message:'my message'}]});
     });

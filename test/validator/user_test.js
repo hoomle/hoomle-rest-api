@@ -58,4 +58,72 @@ describe('user validate', function() {
                 done();
             });
     });
+
+    it('validate() email not exist', function(done) {
+        var user = {
+            email:          'unused_mail@provider.local',
+            password:       '1234',
+            username:       'chuck',
+            displayName:    'Chuck Norris',
+            bio:            'My bio ...',
+            location:       'Orléans'
+        };
+        var bim = new Bim();
+        uservalidator.validate(
+            user,
+            bim,
+            schema.getSchema('user')
+        ).then(function(resolved) {
+                expect(resolved.value)
+                    .to.be.deep.equals(user);
+
+                expect(resolved.bim)
+                    .to.be.an.instanceOf(Bim);
+
+                expect(resolved.bim.isValid())
+                    .to.be.true;
+
+                done();
+            });
+    });
+
+    it('validate() email exist', function(done) {
+        var user = {
+            email:          'stanislas.chollet@gmail.com',
+            password:       '1',
+            username:       'c',
+            displayName:    'C',
+            bio:            'My bio ...',
+            location:       'Orléans'
+        };
+        var bim = new Bim();
+        uservalidator.validate(
+            user,
+            bim,
+            schema.getSchema('user')
+        ).then(null, function(resolved) {
+                expect(resolved.value)
+                    .to.be.deep.equals(user);
+
+                expect(resolved.bim)
+                    .to.be.an.instanceOf(Bim);
+
+                expect(resolved.bim.hasErrorWithPath('email'))
+                    .to.be.true;
+
+                expect(resolved.bim.hasErrorWithPath('password'))
+                    .to.be.true;
+
+                expect(resolved.bim.hasErrorWithPath('username'))
+                    .to.be.true;
+
+                expect(resolved.bim.hasErrorWithPath('displayName'))
+                    .to.be.true;
+
+                expect(resolved.bim.isValid())
+                    .to.be.false;
+
+                done();
+            });
+    });
 });

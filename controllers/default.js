@@ -1,7 +1,6 @@
 'use strict';
 
-var _               = require('lodash'),
-    InternalBim     = require('../bim/internalBim');
+var InternalBim = require('../bim/internalBim');
 
 /**
  * Error handler
