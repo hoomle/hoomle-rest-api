@@ -1,25 +1,26 @@
 'use strict';
 
-var _ = require('lodash');
+var _               = require('lodash'),
+    InternalBim     = require('../bim/internalBim');
 
 /**
  * Error handler
  *
- * @param {Request}     request
- * @param {Response}    response
+ * @param {Request}     req
+ * @param {Response}    res
  */
 var errorHandler = function(err, req, res) {
-    console.log(err);
-
-    var error = {};
-    error.message = _.isString(err) ? err : (_.isObject(err) ? err.message : 'Unknown Error');
-
-    if (_.has(err, 'code')) {
-        error.code = err.code;
+    var bim;
+    if (err.isBim !== undefined) {
+        bim = err;
+    } else {
+        bim = new InternalBim();
     }
-    res.status(err.status || 500);
-    res.contentType('application/json');
-    res.send(error);
+
+    res
+        .contentType('application/json')
+        .status(bim.status)
+        .send(bim.render('json'));
 };
 
 module.exports.errorHandler = errorHandler;

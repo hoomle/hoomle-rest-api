@@ -9,7 +9,7 @@ var validate        = require('./joi/validate'),
     _               = require('lodash');
 
 var _userAlreadyExist = function(userValidated, bim, schema) {
-    if (bim.has('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
+    if (bim.hasErrorWithPath('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
         var resolved = {
             value: userValidated,
             bim: bim

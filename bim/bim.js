@@ -8,14 +8,14 @@ function Bim() {
 }
 
 Bim.prototype.add = function(error) {
-    if (error === undefined || error === null) {
+    if (error === undefined || error === null || error.isBim === undefined || error.isBim === false) {
         return;
     }
 
     this.errors.push(error);
 };
 
-Bim.prototype.has = function(path) {
+Bim.prototype.hasErrorWithPath = function(path) {
     if (this.errors.length === 0) {
         return false;
     }

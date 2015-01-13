@@ -7,7 +7,7 @@ var objectHelper    = require('../helpers/object'),
     userValidator   = require('../validator').User,
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
-    InternalBim     = require('../bim/internalBim'),
+    errorHandler    = require('./default').errorHandler,
     when            = require('when'),
     _               = require('lodash');
 
@@ -34,17 +34,7 @@ var show = function(req, res) {
                 .contentType('application/json')
                 .send(JSON.stringify(data));
         }).then(null, function(err) {
-            var bim;
-            if (err.isBim !== undefined) {
-                bim = err;
-            } else {
-                bim = new InternalBim();
-            }
-
-            res
-                .contentType('application/json')
-                .status(bim.status)
-                .send(bim.render('json'));
+            errorHandler(err, req, res);
         });
 };
 

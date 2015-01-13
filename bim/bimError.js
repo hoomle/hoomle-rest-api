@@ -10,4 +10,6 @@ function BimError(/* code, path, message */) {
     this.message = (arguments.length >= 3) ? arguments[2] : null;
 }
 
+BimError.prototype.isBim = true;
+
 module.exports = BimError;
