@@ -11,7 +11,8 @@ module.exports = {
     user: {
         email_already_exist:    {code: 'user.email_already_exist', message: 'an user already exist with this email'},
         email_checking:         {code: 'user.already_exist_checking', message: 'internal error on email checking'},
-        not_found:              {code: 'user.not_found', message: 'user not found'}
+        not_found:              {code: 'user.not_found', message: 'user not found'},
+        internal:               {code: 'user.internal', message: 'user recording internal error'}
     },
     string: {
         documentid_invalid:     {code: 'string.document_id_invalid', message: 'the id\'s format is not valid'}

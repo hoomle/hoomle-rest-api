@@ -3,12 +3,14 @@
 var objectHelper    = require('../helpers/object'),
     httpErrors      = require('../helpers/http.errors'),
     userService     = require('../services').User,
+    userManager     = require('../manager').User,
     stringValidator = require('../validator').String,
-    userValidator   = require('../validator').User,
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
     errorHandler    = require('./default').errorHandler,
     when            = require('when'),
+    BimError        = require('../bim/bimError'),
+    User            = require('../models').User,
     _               = require('lodash');
 
 /**
@@ -87,28 +89,26 @@ var index = function(req, res, next) {
 /**
  * POST  /users
  *
- * Payload:
+ * Request payload:
  *  {
-"_id": "548897bff32113d9017a70f9",
-"email": "stanislas.chollet@gmail.com",
- "username": "stan",
- "firstName": "Stan",
- "lastName": "Chollet",
- "displayName": "Stan Chollet",
- "bio": "Passionnate about travel, sport and development",
- "location": "Paris, France",
- "createdAt": "2014-12-10T18:58:07.640Z"
- }
+ *      email: "stanislas.chollet@gmail.com",
+ *      username: "stan",
+ *      firstName: "Stan",
+ *      lastName: "Chollet",
+ *      displayName: "Stan Chollet",
+ *      bio: "Passionnate about travel, sport and development",
+ *      location: "Paris, France",
+ *  }
  */
 var create = function(req, res) {
     console.log('controller:create');
 
-    userValidator
-        .validate(req.body)
+    userManager
+        .create(req.body)
         .then(function(resolved) {
             res
                 .contentType('application/json')
-                .status(200)
+                .status(201)
                 .send(JSON.stringify(resolved.value));
         }, function(err) {
             res
