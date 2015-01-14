@@ -9,8 +9,6 @@ var objectHelper    = require('../helpers/object'),
     NotFoundBim     = require('../bim/notFoundBim'),
     errorHandler    = require('./default').errorHandler,
     when            = require('when'),
-    BimError        = require('../bim/bimError'),
-    User            = require('../models').User,
     _               = require('lodash');
 
 /**
@@ -18,6 +16,9 @@ var objectHelper    = require('../helpers/object'),
  *
  * Parameters:
  *  - id | Respect the format of Mongo's Id
+ *
+ * @param {Request} req
+ * @param {Response} res
  */
 var show = function(req, res) {
     stringValidator.isDocumentId(req.params.id)
@@ -45,6 +46,9 @@ var show = function(req, res) {
  *
  * Parameters:
  *  - username | Username to search
+ *
+ * @param {Request} req
+ * @param {Response} res
  */
 var index = function(req, res, next) {
     console.log('controller:index');
@@ -99,6 +103,9 @@ var index = function(req, res, next) {
  *      bio: "Passionnate about travel, sport and development",
  *      location: "Paris, France",
  *  }
+ *
+ * @param {Request} req
+ * @param {Response} res
  */
 var create = function(req, res) {
     console.log('controller:create');

@@ -3,7 +3,7 @@
 var objectHelper    = require('../../helpers/object'),
     expect          = require('chai').expect;
 
-describe('helpers.object', function() {
+describe('helpers / object', function() {
     it('removeProperties() - Remove properties from object', function() {
         var testObject = {
             property1: 'value',

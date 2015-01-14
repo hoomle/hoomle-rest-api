@@ -6,7 +6,7 @@ var Bim             = require('../../../bim/bim'),
     validate        = require('../../../validator/joi/validate'),
     expect          = require('chai').expect;
 
-describe('validate', function() {
+describe('validator / joi / validate', function() {
     it('invalid value', function(done) {
         var schema = {
             username: joi.string().alphanum().min(3).max(30).required()

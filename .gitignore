@@ -7,3 +7,6 @@ npm-debug.log
 
 # Idea
 .idea/
+
+# Reports
+reports/

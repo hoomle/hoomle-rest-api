@@ -4,7 +4,7 @@ var InternalBim     = require('../../bim/internalBim'),
     expect          = require('chai').expect,
     errors          = require('../../validator/errors');
 
-describe('InternalBim', function() {
+describe('bim / InternalBim', function() {
     it('constructor', function() {
         var internalBim = new InternalBim();
 

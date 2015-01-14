@@ -4,7 +4,7 @@ var NotFoundBim     = require('../../bim/notFoundBim'),
     expect          = require('chai').expect,
     errors          = require('../../validator/errors');
 
-describe('NotFoundBim', function() {
+describe('bim / NotFoundBim', function() {
     it('constructor', function() {
         var notFoundBim = new NotFoundBim();
 

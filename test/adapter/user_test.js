@@ -3,7 +3,7 @@
 var adapterUsers    = require('../../adapter/index').User,
     expect          = require('chai').expect;
 
-describe('adapter.users', function() {
+describe('adapter / user', function() {
     it('hateoasize() - Add HATEOAS data to object', function() {
         var user = {
             _id         : '534da334b9f6c07517f6cbb9',

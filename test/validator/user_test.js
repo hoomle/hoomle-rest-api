@@ -6,7 +6,7 @@ var Bim             = require('../../bim/bim'),
     schema          = require('../../validator/joi/schema'),
     expect          = require('chai').expect;
 
-describe('user validate', function() {
+describe('validator / user', function() {
     it('_emailAlreadyExist() email not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();

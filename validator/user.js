@@ -8,6 +8,15 @@ var validate        = require('./joi/validate'),
     when            = require('when'),
     _               = require('lodash');
 
+/**
+ * Check if the email is unique
+ *
+ * @param userValidated
+ * @param {Bim} bim
+ * @param schema
+ * @returns {Promise}
+ * @private
+ */
 var _emailAlreadyExist = function(userValidated, bim, schema) {
     if (bim.hasErrorWithPath('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
         var resolved = {
@@ -53,7 +62,15 @@ var _emailAlreadyExist = function(userValidated, bim, schema) {
         });
 };
 
-// TODO WIP
+/**
+ * Check if the username is unique
+ *
+ * @param userValidated
+ * @param {Bim} bim
+ * @param schema
+ * @returns {Promise}
+ * @private
+ */
 var _usernameAlreadyExist = function(userValidated, bim, schema) {
     if (bim.hasErrorWithPath('username') || _.isEmpty(userValidated.username) || !_.has(schema, 'username')) {
         var resolved = {
@@ -99,6 +116,13 @@ var _usernameAlreadyExist = function(userValidated, bim, schema) {
         });
 };
 
+/**
+ * Valid the values to record a new user
+ *
+ * @param {Object} value - User data to validate
+ * @param {string} schemaName - if it is not specified, "default" will be used
+ * @returns {Promise}
+ */
 var validateUser = function(value, schemaName) {
     var schema = joiSchema.getSchema('user', schemaName);
     var promise = validate(value, schema);

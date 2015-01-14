@@ -4,7 +4,7 @@ var Bim             = require('../../bim/bim'),
     BimError        = require('../../bim/bimError'),
     expect          = require('chai').expect;
 
-describe('Bim', function() {
+describe('bim / Bim', function() {
     it('constructor', function() {
         var bim = new Bim();
 

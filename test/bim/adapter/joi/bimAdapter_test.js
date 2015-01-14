@@ -5,7 +5,7 @@ var bimAdapter      = require('../../../../bim/adapters/joi/bimAdapter'),
     BimError        = require('../../../../bim/bimError'),
     expect          = require('chai').expect;
 
-describe('bimAdapter', function() {
+describe('bim / adapter / joi / bimAdapter', function() {
     it('adapt joi error with errors', function() {
         var joiErrors = {
             details: [

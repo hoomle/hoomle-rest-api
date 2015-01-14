@@ -4,7 +4,7 @@ var schema          = require('../../../validator/joi/schema'),
     userSchema      = require('../../../validator/schema/user'),
     expect          = require('chai').expect;
 
-describe('schema', function() {
+describe('validator / joi / schema', function() {
     it('getSchema() default', function() {
         var schemaRetrieved = schema.getSchema('user', 'default');
 

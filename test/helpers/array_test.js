@@ -3,7 +3,7 @@
 var arrayHelper     = require('../../helpers/array'),
     expect          = require('chai').expect;
 
-describe('helpers.array', function() {
+describe('helpers / array', function() {
     it('pushToPropertyUnknow() - Push object to property (array) of an object', function() {
         var testObject = {};
 

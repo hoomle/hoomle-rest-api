@@ -3,7 +3,7 @@
 var BimError        = require('../../bim/bimError'),
     expect          = require('chai').expect;
 
-describe('BimError', function() {
+describe('bim / BimError', function() {
     it('constructor', function() {
         var bimError = new BimError();
 
