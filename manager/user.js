@@ -7,7 +7,7 @@ var userValidator   = require('../validator').User,
     User            = require('../models').User;
 
 /**
- * Create an user.
+ * Create an user
  *
  * @param {string} payload
  */

@@ -1,6 +1,6 @@
 'use strict';
 
-var User            = require('../models').User,
+var User            = require('../../models').User,
     ObjectId        = require('mongoose').Types.ObjectId;
 
 /**

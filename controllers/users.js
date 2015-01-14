@@ -2,7 +2,7 @@
 
 var objectHelper    = require('../helpers/object'),
     httpErrors      = require('../helpers/http.errors'),
-    userService     = require('../services').User,
+    userDao         = require('../manager/dao').User,
     userManager     = require('../manager').User,
     stringValidator = require('../validator').String,
     errors          = require('../validator').Errors,
@@ -23,7 +23,7 @@ var objectHelper    = require('../helpers/object'),
 var show = function(req, res) {
     stringValidator.isDocumentId(req.params.id)
         .then(function(value) {
-            return userService.findOneReadOnlyById(value);
+            return userDao.findOneReadOnlyById(value);
         })
         .then(function(data) {
             if (!data) {
@@ -57,7 +57,7 @@ var index = function(req, res, next) {
 
     // Filter data with query param "username"
     if (!_.isEmpty(username)) {
-        userService
+        userDao
             .findOneReadOnlyByUsername(username)
             .then(function(user) {
                 if (user === null) {

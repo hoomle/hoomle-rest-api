@@ -1,7 +1,7 @@
 'use strict';
 
 var validate        = require('./joi/validate'),
-    userServices    = require('../services/user'),
+    userDao         = require('../manager/dao').User,
     BimError        = require('../bim/bimError'),
     errors          = require('../validator/errors'),
     joiSchema       = require('./joi/schema'),
@@ -30,7 +30,7 @@ var _emailAlreadyExist = function(userValidated, bim, schema) {
         }
     }
 
-    return userServices.findOneReadOnlyByEmail(userValidated.email)
+    return userDao.findOneReadOnlyByEmail(userValidated.email)
         .then(function(user) {
             if (user !== null) {
                 var bimError = new BimError(
@@ -84,7 +84,7 @@ var _usernameAlreadyExist = function(userValidated, bim, schema) {
         }
     }
 
-    return userServices.findOneReadOnlyByUsername(userValidated.username)
+    return userDao.findOneReadOnlyByUsername(userValidated.username)
         .then(function(user) {
             if (user !== null) {
                 var bimError = new BimError(
