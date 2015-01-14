@@ -8,7 +8,7 @@ var validate        = require('./joi/validate'),
     when            = require('when'),
     _               = require('lodash');
 
-var _userAlreadyExist = function(userValidated, bim, schema) {
+var _emailAlreadyExist = function(userValidated, bim, schema) {
     if (bim.hasErrorWithPath('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
         var resolved = {
             value: userValidated,
@@ -41,9 +41,55 @@ var _userAlreadyExist = function(userValidated, bim, schema) {
             });
         }, function() {
             var bimError = new BimError(
-                errors.user.email_checking.code,
+                errors.user.internal.code,
                 'email',
-                errors.user.email_checking.message
+                errors.user.internal.message
+            );
+            bim.add(bimError);
+            return when.reject({
+                value: userValidated,
+                bim: bim
+            });
+        });
+};
+
+// TODO WIP
+var _usernameAlreadyExist = function(userValidated, bim, schema) {
+    if (bim.hasErrorWithPath('username') || _.isEmpty(userValidated.username) || !_.has(schema, 'username')) {
+        var resolved = {
+            value: userValidated,
+            bim: bim
+        };
+        if (bim.isValid()) {
+            return when.resolve(resolved);
+        } else {
+            return when.reject(resolved);
+        }
+    }
+
+    return userServices.findOneReadOnlyByUsername(userValidated.username)
+        .then(function(user) {
+            if (user !== null) {
+                var bimError = new BimError(
+                    errors.user.username_already_exist.code,
+                    'username',
+                    errors.user.username_already_exist.message
+                );
+                bim.add(bimError);
+                return when.reject({
+                    value: userValidated,
+                    bim: bim
+                });
+            }
+            return when.resolve({
+                value: userValidated,
+                bim: bim
+            });
+        }, function() {
+            var bimError = new BimError(
+                errors.user.internal.code,
+                'username',
+                errors.user.internal.message
             );
             bim.add(bimError);
             return when.reject({
@@ -57,14 +103,21 @@ var validateUser = function(value, schemaName) {
     var schema = joiSchema.getSchema('user', schemaName);
     var promise = validate(value, schema);
 
-    var promiseUserAlreadyExist = function(resolved) {
-        return _userAlreadyExist(resolved.value, resolved.bim, schema);
+    var promiseEmailAlreadyExist = function(resolved) {
+        return _emailAlreadyExist(resolved.value, resolved.bim, schema);
     };
 
-    return promise.then(promiseUserAlreadyExist, promiseUserAlreadyExist);
+    var promiseUsernameAlreadyExist = function(resolved) {
+        return _usernameAlreadyExist(resolved.value, resolved.bim, schema);
+    };
+
+    return promise
+        .then(promiseEmailAlreadyExist, promiseEmailAlreadyExist)
+        .then(promiseUsernameAlreadyExist, promiseUsernameAlreadyExist);
 };
 
 module.exports = {
-    _userAlreadyExist:  _userAlreadyExist,
-    validate:           validateUser
+    _emailAlreadyExist:      _emailAlreadyExist,
+    _usernameAlreadyExist:  _usernameAlreadyExist,
+    validate:               validateUser
 };

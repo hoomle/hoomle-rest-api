@@ -7,7 +7,7 @@ var Bim             = require('../../../bim/bim'),
     expect          = require('chai').expect;
 
 describe('validate', function() {
-    it('invalid value on property "username"', function(done) {
+    it('invalid value', function(done) {
         var schema = {
             username: joi.string().alphanum().min(3).max(30).required()
         };
@@ -40,7 +40,7 @@ describe('validate', function() {
             });
     });
 
-    it('valid value on property "username"', function(done) {
+    it('valid value', function(done) {
         var schema = {
             username: joi.string().alphanum().min(3).max(30).required()
         };

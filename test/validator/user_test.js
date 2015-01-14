@@ -7,10 +7,10 @@ var Bim             = require('../../bim/bim'),
     expect          = require('chai').expect;
 
 describe('user validate', function() {
-    it('_userAlreadyExist() email not exist', function(done) {
+    it('_emailAlreadyExist() email not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();
-        uservalidator._userAlreadyExist(
+        uservalidator._emailAlreadyExist(
                 user,
                 bim,
                 schema.getSchema('user', 'default')
@@ -29,10 +29,10 @@ describe('user validate', function() {
             });
     });
 
-    it('_userAlreadyExist() email exist', function(done) {
+    it('_emailAlreadyExist() email exist', function(done) {
         var user = {email: 'stanislas.chollet@gmail.com'};
         var bim = new Bim();
-        uservalidator._userAlreadyExist(
+        uservalidator._emailAlreadyExist(
                 user,
                 bim,
                 schema.getSchema('user')
@@ -51,6 +51,58 @@ describe('user validate', function() {
 
                 expect(resolved.bim.errors[0].message)
                     .to.be.equals(errors.user.email_already_exist.message);
+
+                expect(resolved.bim.isValid())
+                    .to.be.false;
+
+                done();
+            });
+    });
+
+    it('_usernameAlreadyExist() username not exist', function(done) {
+        var user = {email: 'unused_username'};
+        var bim = new Bim();
+        uservalidator._usernameAlreadyExist(
+            user,
+            bim,
+            schema.getSchema('user', 'default')
+        )
+            .then(function(resolved) {
+                expect(resolved.value)
+                    .to.be.deep.equals(user);
+
+                expect(resolved.bim)
+                    .to.be.an.instanceOf(Bim);
+
+                expect(resolved.bim.isValid())
+                    .to.be.true;
+
+                done();
+            });
+    });
+
+    it('_usernameAlreadyExist() username exist', function(done) {
+        var user = {username: 'stan'};
+        var bim = new Bim();
+        uservalidator._usernameAlreadyExist(
+            user,
+            bim,
+            schema.getSchema('user')
+        ).then(null, function(resolved) {
+                expect(resolved.value)
+                    .to.be.deep.equals(user);
+
+                expect(resolved.bim)
+                    .to.be.an.instanceOf(Bim);
+
+                expect(resolved.bim.errors[0].code)
+                    .to.be.equals(errors.user.username_already_exist.code);
+
+                expect(resolved.bim.errors[0].path)
+                    .to.be.equals('username');
+
+                expect(resolved.bim.errors[0].message)
+                    .to.be.equals(errors.user.username_already_exist.message);
 
                 expect(resolved.bim.isValid())
                     .to.be.false;
@@ -87,7 +139,7 @@ describe('user validate', function() {
             });
     });
 
-    it('validate() email exist', function(done) {
+    it('validate() invalid values', function(done) {
         var user = {
             email:          'stanislas.chollet@gmail.com',
             password:       '1',
