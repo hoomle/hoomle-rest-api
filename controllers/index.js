@@ -1,9 +1,11 @@
 'use strict';
 
 var defaultCtrl     = require('./default'),
-    usersCtr        = require('./users');
+    usersCtrl       = require('./users'),
+    homepagesCtrl   = require('./homepages');
 
 module.exports = {
     Default: defaultCtrl,
-    User: usersCtr
+    User: usersCtrl,
+    Homepage: homepagesCtrl
 };

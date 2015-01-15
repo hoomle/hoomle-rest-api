@@ -16,5 +16,11 @@ module.exports = {
     },
     string: {
         documentid_invalid:     {code: 'string.document_id_invalid', message: 'the id\'s format is not valid'}
+    },
+    homepage: {
+        slug_already_exist:     {code: 'homepage.slug_already_exist', message: 'an homepage already exist with this slug'},
+        owner_not_exist:        {code: 'homepage.owner_not_exist', message: 'the owner does not exist'},
+        not_found:              {code: 'homepage.not_found', message: 'homepage not found'},
+        internal:               {code: 'homepage.internal', message: 'homepage internal error'}
     }
 };

@@ -25,9 +25,11 @@ app.use(passport.initialize());
 // app.use('/', passport.authenticate('basic', { session: false }));
 
 // Routes protected
-app.route('/users').get(controllers.User.index);
 app.route('/users').post(controllers.User.create);
 app.route('/users/:id').get(controllers.User.show);
+
+app.route('/homepage').post(controllers.Homepage.create);
+app.route('/homepage/:slug').get(controllers.Homepage.show);
 
 // Handle error(s)
 app.use(controllers.Default.errorHandler);

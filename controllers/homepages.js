@@ -1,40 +1,35 @@
 'use strict';
 
 var objectHelper    = require('../helpers/object'),
-    httpErrors      = require('../helpers/http.errors'),
-    userDao         = require('../manager/dao').User,
-    userManager     = require('../manager').User,
-    stringValidator = require('../validator').String,
+    homepageDao     = require('../manager/dao').Homepage,
+    homepageManager = require('../manager').Homepage,
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
     errorHandler    = require('./default').errorHandler,
-    when            = require('when'),
-    _               = require('lodash');
+    when            = require('when');
 
 /**
- * GET  /users/:id
+ * GET  /homepage/:slug
  *
  * Parameters:
- *  - id | Respect the format of Mongo's Id
+ *  - slug | Respect the format of slug
  *
  * @param {Request} req
  * @param {Response} res
  */
 var show = function(req, res) {
-    console.log('controller:users:show');
+    console.log('controller:homepages:show');
 
-    stringValidator.isDocumentId(req.params.id)
-        .then(function(value) {
-            return userDao.findOneReadOnlyById(value);
-        })
+    // TODO Valid the slug format
+    homepageDao.findOneReadOnlyBySlug(req.params.slug)
         .then(function(data) {
             if (!data) {
                 return when.reject(new NotFoundBim(
-                    errors.user.not_found.code,
-                    errors.user.not_found.message
+                    errors.homepage.not_found.code,
+                    errors.homepage.not_found.message
                 ));
             }
-            data = objectHelper.removeProperties(['__v', 'password'], data);
+            data = objectHelper.removeProperties(['__v'], data);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
@@ -44,22 +39,23 @@ var show = function(req, res) {
 };
 
 /**
- * POST  /users
+ * POST  /homepages
  *
  * Request payload:
  *  {
- *      email: "stanislas.chollet@gmail.com",
- *      password: "0000",
- *      displayName: "Stan Chollet"
+ *      slug: "stan",
+ *      bio: "Passionnate about travel, sport and development",
+ *      location: "Paris, France",
+ *      owner: "5486ebf6d8d0673f156a53e3",
  *  }
  *
  * @param {Request} req
  * @param {Response} res
  */
 var create = function(req, res) {
-    console.log('controller:users:create');
+    console.log('controller:homepages:create');
 
-    userManager
+    homepageManager
         .create(req.body)
         .then(function(resolved) {
             res
@@ -75,6 +71,6 @@ var create = function(req, res) {
 };
 
 module.exports = {
-    show: show,
+    show:   show,
     create: create
 };

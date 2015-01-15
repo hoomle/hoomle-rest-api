@@ -2,7 +2,7 @@
 
 var Bim             = require('../../bim/bim'),
     errors          = require('../../validator/errors'),
-    uservalidator   = require('../../validator/user'),
+    userValidator   = require('../../validator/user'),
     schema          = require('../../validator/joi/schema'),
     expect          = require('chai').expect;
 
@@ -10,7 +10,7 @@ describe('validator / user', function() {
     it('_emailAlreadyExist() email not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();
-        uservalidator._emailAlreadyExist(
+        userValidator._emailAlreadyExist(
                 user,
                 bim,
                 schema.getSchema('user', 'default')
@@ -32,7 +32,7 @@ describe('validator / user', function() {
     it('_emailAlreadyExist() email exist', function(done) {
         var user = {email: 'stanislas.chollet@gmail.com'};
         var bim = new Bim();
-        uservalidator._emailAlreadyExist(
+        userValidator._emailAlreadyExist(
                 user,
                 bim,
                 schema.getSchema('user')
@@ -59,69 +59,14 @@ describe('validator / user', function() {
             });
     });
 
-    it('_usernameAlreadyExist() username not exist', function(done) {
-        var user = {email: 'unused_username'};
-        var bim = new Bim();
-        uservalidator._usernameAlreadyExist(
-            user,
-            bim,
-            schema.getSchema('user', 'default')
-        )
-            .then(function(resolved) {
-                expect(resolved.value)
-                    .to.be.deep.equals(user);
-
-                expect(resolved.bim)
-                    .to.be.an.instanceOf(Bim);
-
-                expect(resolved.bim.isValid())
-                    .to.be.true;
-
-                done();
-            });
-    });
-
-    it('_usernameAlreadyExist() username exist', function(done) {
-        var user = {username: 'stan'};
-        var bim = new Bim();
-        uservalidator._usernameAlreadyExist(
-            user,
-            bim,
-            schema.getSchema('user')
-        ).then(null, function(resolved) {
-                expect(resolved.value)
-                    .to.be.deep.equals(user);
-
-                expect(resolved.bim)
-                    .to.be.an.instanceOf(Bim);
-
-                expect(resolved.bim.errors[0].code)
-                    .to.be.equals(errors.user.username_already_exist.code);
-
-                expect(resolved.bim.errors[0].path)
-                    .to.be.equals('username');
-
-                expect(resolved.bim.errors[0].message)
-                    .to.be.equals(errors.user.username_already_exist.message);
-
-                expect(resolved.bim.isValid())
-                    .to.be.false;
-
-                done();
-            });
-    });
-
     it('validate() email not exist', function(done) {
         var user = {
             email:          'unused_mail@provider.local',
             password:       '1234',
-            username:       'chuck',
-            displayName:    'Chuck Norris',
-            bio:            'My bio ...',
-            location:       'Orléans'
+            displayName:    'Chuck Norris'
         };
         var bim = new Bim();
-        uservalidator.validate(
+        userValidator.validate(
             user,
             bim,
             schema.getSchema('user')
@@ -143,13 +88,10 @@ describe('validator / user', function() {
         var user = {
             email:          'stanislas.chollet@gmail.com',
             password:       '1',
-            username:       'c',
-            displayName:    'C',
-            bio:            'My bio ...',
-            location:       'Orléans'
+            displayName:    'C'
         };
         var bim = new Bim();
-        uservalidator.validate(
+        userValidator.validate(
             user,
             bim,
             schema.getSchema('user')
@@ -164,9 +106,6 @@ describe('validator / user', function() {
                     .to.be.true;
 
                 expect(resolved.bim.hasErrorWithPath('password'))
-                    .to.be.true;
-
-                expect(resolved.bim.hasErrorWithPath('username'))
                     .to.be.true;
 
                 expect(resolved.bim.hasErrorWithPath('displayName'))

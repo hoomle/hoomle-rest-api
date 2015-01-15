@@ -1,7 +1,9 @@
 'use strict';
 
-var userService    = require('./user');
+var userDao         = require('./user'),
+    homepageDao     = require('./homepage');
 
 module.exports = {
-    User: userService
+    User        : userDao,
+    Homepage    : homepageDao
 };

@@ -1,7 +1,9 @@
 'use strict';
 
-var userManager    = require('./user');
+var userManager         = require('./user'),
+    homepageManager     = require('./homepage');
 
 module.exports = {
-    User: userManager
+    User        : userManager,
+    Homepage    : homepageManager
 };
