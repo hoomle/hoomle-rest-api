@@ -1,13 +1,12 @@
 'use strict';
 
-var validate        = require('./joi/validate'),
-    userDao         = require('../manager/dao').User,
+var when            = require('when'),
+    _               = require('lodash'),
+    validate        = require('./joi/validate'),
     homepageDao     = require('../manager/dao').Homepage,
     BimError        = require('../bim/bimError'),
     errors          = require('../validator/errors'),
-    joiSchema       = require('./joi/schema'),
-    when            = require('when'),
-    _               = require('lodash');
+    joiSchema       = require('./joi/schema');
 
 /**
  * Check if the slug is unique
@@ -71,66 +70,6 @@ var _slugAlreadyExist = function(homepageValidated, bim, schema) {
 };
 
 /**
- * Check if the owner exist
- *
- * @param homepageValidated
- * @param {Bim} bim
- * @param schema
- * @returns {Promise}
- */
-var _ownerExist = function(homepageValidated, bim, schema) {
-    if (bim.hasErrorWithPath('owner') || _.isEmpty(homepageValidated.owner) || !_.has(schema, 'owner')) {
-        var resolved = {
-            value: homepageValidated,
-            bim: bim
-        };
-        if (bim.isValid()) {
-            return when.resolve(resolved);
-        } else {
-            return when.reject(resolved);
-        }
-    }
-
-    return userDao.findOneReadOnlyById(homepageValidated.owner)
-        .then(function(user) {
-            if (user === null) {
-                var bimError = new BimError(
-                    errors.homepage.owner_not_exist.code,
-                    'owner',
-                    errors.homepage.owner_not_exist.message
-                );
-                bim.add(bimError);
-                return when.reject({
-                    value: homepageValidated,
-                    bim: bim
-                });
-            }
-            if (bim.isValid()) {
-                return when.resolve({
-                    value: homepageValidated,
-                    bim: bim
-                });
-            } else {
-                return when.reject({
-                    value: homepageValidated,
-                    bim: bim
-                });
-            }
-        }, function() {
-            var bimError = new BimError(
-                errors.homepage.internal.code,
-                'owner',
-                errors.homepage.internal.message
-            );
-            bim.add(bimError);
-            return when.reject({
-                value: homepageValidated,
-                bim: bim
-            });
-        });
-};
-
-/**
  * Valid the values to record a new homepage
  *
  * @param {Object} value - Homepage data to validate
@@ -145,17 +84,10 @@ var validateHomepage = function(value, schemaName) {
         return _slugAlreadyExist(resolved.value, resolved.bim, schema);
     };
 
-    var promiseOwnerNotExist = function(resolved) {
-        return _ownerExist(resolved.value, resolved.bim, schema);
-    };
-
-    return promise
-        .then(promiseSlugAlreadyExist, promiseSlugAlreadyExist)
-        .then(promiseOwnerNotExist, promiseOwnerNotExist);
+    return promise.then(promiseSlugAlreadyExist, promiseSlugAlreadyExist);
 };
 
 module.exports = {
     _slugAlreadyExist:      _slugAlreadyExist,
-    _ownerExist:            _ownerExist,
     validate:               validateHomepage
 };

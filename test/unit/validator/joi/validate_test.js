@@ -1,9 +1,9 @@
 'use strict';
 
-var Bim             = require('../../../bim/bim'),
-    BimError        = require('../../../bim/bimError'),
+var Bim             = require('../../../../bim/bim'),
+    BimError        = require('../../../../bim/bimError'),
     joi             = require('joi'),
-    validate        = require('../../../validator/joi/validate'),
+    validate        = require('../../../../validator/joi/validate'),
     expect          = require('chai').expect;
 
 describe('validator / joi / validate', function() {

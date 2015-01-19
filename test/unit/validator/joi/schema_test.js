@@ -1,7 +1,7 @@
 'use strict';
 
-var schema          = require('../../../validator/joi/schema'),
-    userSchema      = require('../../../validator/schema/user'),
+var schema          = require('../../../../validator/joi/schema'),
+    userSchema      = require('../../../../validator/schema/user'),
     expect          = require('chai').expect;
 
 describe('validator / joi / schema', function() {

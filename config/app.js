@@ -1,37 +1,44 @@
 'use strict';
 
-var morgan              = require('morgan'),
+var express             = require('express'),
+    morgan              = require('morgan'),
     bodyParser          = require('body-parser'),
     methodOverride      = require('method-override'),
+    oauth2Server        = require('oauth2-server'),
     Configuration       = require('../config/configuration'),
-    express             = require('express'),
-    passport            = require('passport'),
     controllers         = require('../controllers'),
+    oauthManager        = require('../manager/oauth'),
     app                 = express();
-
-// Configuration
-require('../config/passport')(passport);
 
 app.set('port', Configuration.port);
 app.use(morgan(Configuration.env));
 app.use(bodyParser());
 app.use(methodOverride());
-app.use(passport.initialize());
 
-// Routes unprotected
-// app.route('/users').post(controllers.User.create);
+// OAuth configuration
+app.oauth = oauth2Server({
+    model:  oauthManager,
+    grants: ['password'],
+    debug:  true
+});
 
-// Enable firewall
-// app.use('/', passport.authenticate('basic', { session: false }));
+// OAuth
+app.all('/oauth/access_token', app.oauth.grant());
 
-// Routes protected
-app.route('/users').post(controllers.User.create);
-app.route('/users/:id').get(controllers.User.show);
-
-app.route('/homepage').post(controllers.Homepage.create);
+// Routes unlogged
 app.route('/homepage/:slug').get(controllers.Homepage.show);
+app.route('/users/:id').get(controllers.User.show);
+app.route('/users').post(controllers.User.create);
 
-// Handle error(s)
-app.use(controllers.Default.errorHandler);
+// OAuth firewall
+app.all('/*', app.oauth.authorise());
+app.all('/*', require('../middlewares/loadUser'));
+
+// Routes logged
+app.route('/homepage').post(controllers.Homepage.create);
+
+// Default errors handler
+app.use(app.oauth.errorHandler());
+// app.use(controllers.Default.errorHandler);
 
 module.exports = app;

@@ -1,6 +1,6 @@
 'use strict';
 
-var objectHelper    = require('../../helpers/object'),
+var objectHelper    = require('../../../helpers/object'),
     expect          = require('chai').expect;
 
 describe('helpers / object', function() {

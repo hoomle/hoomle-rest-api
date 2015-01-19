@@ -1,54 +1,54 @@
 'use strict';
 
-var NotFoundBim     = require('../../bim/notFoundBim'),
+var InternalBim     = require('../../../bim/internalBim'),
     expect          = require('chai').expect,
-    errors          = require('../../validator/errors');
+    errors          = require('../../../validator/errors');
 
-describe('bim / NotFoundBim', function() {
+describe('bim / InternalBim', function() {
     it('constructor', function() {
-        var notFoundBim = new NotFoundBim();
+        var internalBim = new InternalBim();
 
-        expect(notFoundBim)
+        expect(internalBim)
             .to.have.property('errors')
             .that.is.an('array');
 
-        expect(notFoundBim)
+        expect(internalBim)
             .to.have.property('status')
-            .to.be.equals(404);
+            .to.be.equals(500);
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('code')
-            .to.be.equals(errors.global.not_found.code);
+            .to.be.equals(errors.global.internal.code);
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('path')
             .to.be.null();
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('message')
-            .to.be.equals(errors.global.not_found.message);
+            .to.be.equals(errors.global.internal.message);
     });
 
     it('constructor with parameters', function() {
-        var notFoundBim = new NotFoundBim('specific_code', 'specific message');
+        var internalBim = new InternalBim('specific_code', 'specific message');
 
-        expect(notFoundBim)
+        expect(internalBim)
             .to.have.property('errors')
             .that.is.an('array');
 
-        expect(notFoundBim)
+        expect(internalBim)
             .to.have.property('status')
-            .to.be.equals(404);
+            .to.be.equals(500);
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('code')
             .to.be.equals('specific_code');
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('path')
             .to.be.null();
 
-        expect(notFoundBim.errors[0])
+        expect(internalBim.errors[0])
             .to.have.property('message')
             .to.be.equals('specific message');
     });
@@ -59,7 +59,7 @@ describe('bim / NotFoundBim', function() {
     });
 
     it('isBim', function() {
-        var notFoundBim = new NotFoundBim();
-        expect(notFoundBim.isBim).to.be.true();
+        var internalBim = new InternalBim();
+        expect(internalBim.isBim).to.be.true();
     });
 });

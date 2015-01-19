@@ -1,6 +1,6 @@
 'use strict';
 
-var arrayHelper     = require('../../helpers/array'),
+var arrayHelper     = require('../../../helpers/array'),
     expect          = require('chai').expect;
 
 describe('helpers / array', function() {

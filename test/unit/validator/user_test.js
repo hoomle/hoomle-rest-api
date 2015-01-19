@@ -1,10 +1,13 @@
 'use strict';
 
-var Bim             = require('../../bim/bim'),
-    errors          = require('../../validator/errors'),
-    userValidator   = require('../../validator/user'),
-    schema          = require('../../validator/joi/schema'),
+var Bim             = require('../../../bim/bim'),
+    errors          = require('../../../validator/errors'),
+    userValidator   = require('../../../validator/user'),
+    schema          = require('../../../validator/joi/schema'),
     expect          = require('chai').expect;
+
+// Load data for tests
+require('../../fixtures.load');
 
 describe('validator / user', function() {
     it('_emailAlreadyExist() email not exist', function(done) {
@@ -36,7 +39,9 @@ describe('validator / user', function() {
                 user,
                 bim,
                 schema.getSchema('user')
-            ).then(null, function(resolved) {
+            ).then(function(obj) {
+                console.log(obj);
+            }, function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(user);
 

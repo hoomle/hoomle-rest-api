@@ -1,12 +1,13 @@
 'use strict';
 
-var objectHelper    = require('../helpers/object'),
-    homepageDao     = require('../manager/dao').Homepage,
-    homepageManager = require('../manager').Homepage,
-    errors          = require('../validator').Errors,
-    NotFoundBim     = require('../bim/notFoundBim'),
-    errorHandler    = require('./default').errorHandler,
-    when            = require('when');
+var objectHelper        = require('../helpers/object'),
+    homepageDao         = require('../manager/dao').Homepage,
+    homepageManager     = require('../manager').Homepage,
+    homepageValidator   = require('../validator').Homepage,
+    errors              = require('../validator').Errors,
+    NotFoundBim         = require('../bim/notFoundBim'),
+    errorHandler        = require('./default').errorHandler,
+    when                = require('when');
 
 /**
  * GET  /homepage/:slug
@@ -45,8 +46,7 @@ var show = function(req, res) {
  *  {
  *      slug: "stan",
  *      bio: "Passionnate about travel, sport and development",
- *      location: "Paris, France",
- *      owner: "5486ebf6d8d0673f156a53e3",
+ *      location: "Paris, France"
  *  }
  *
  * @param {Request} req
@@ -55,13 +55,19 @@ var show = function(req, res) {
 var create = function(req, res) {
     console.log('controller:homepages:create');
 
-    homepageManager
-        .create(req.body)
+    homepageValidator
+        .validate(req.body)
         .then(function(resolved) {
+            resolved.value.owner = req.user._id;
+            return homepageManager.create(resolved.value);
+        }, function(err) {
+            return when.reject(err);
+        })
+        .then(function(homepageCreated) {
             res
                 .contentType('application/json')
                 .status(201)
-                .send(JSON.stringify(resolved.value));
+                .send(JSON.stringify(homepageCreated));
         }, function(err) {
             res
                 .contentType('application/json')

@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./app.js",
-    "test": "HOOLE_API_MONGODB_PATH=mongodb://localhost/hooletest _mocha --reporter spec"
+    "test": "HOOLE_API_MONGODB_PATH=mongodb://localhost/hooletest gulp tests"
   },
   "contributors": [
     {
@@ -24,6 +24,7 @@
     "moment": "^2.6.0",
     "mongodb": "^1.4.26",
     "morgan": "~1.0.0",
+    "oauth2-server": "^2.3.0",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
     "randomstring": "^1.0.3",

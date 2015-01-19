@@ -84,6 +84,28 @@ var findOneReadOnlyByEmail = function(email, select) {
 };
 
 /**
+ * Find user by email.
+ * The data return are Read Only (Plain Objet) instead of MongooseDocument
+ *
+ * @param {string} email
+ * @param {string} password
+ */
+var findOneReadOnlyByEmailAndPassword = function(email, password, select) {
+    var query = User
+        .findOne({
+            email: email,
+            password: password
+        })
+        .lean(true);
+
+    if (select) {
+        query.select(select);
+    }
+
+    return query.exec();
+};
+
+/**
  * Find user by username.
  * The data return are Read Only (Plain Objet) instead of MongooseDocument
  *
@@ -108,5 +130,6 @@ module.exports = {
     findOneReadOnlyById: findOneReadOnlyById,
     findReadOnlyByIds: findReadOnlyByIds,
     findOneReadOnlyByEmail: findOneReadOnlyByEmail,
-    findOneReadOnlyByUsername: findOneReadOnlyByUsername
+    findOneReadOnlyByUsername: findOneReadOnlyByUsername,
+    findOneReadOnlyByEmailAndPassword: findOneReadOnlyByEmailAndPassword
 };
