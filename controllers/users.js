@@ -1,10 +1,9 @@
 'use strict';
 
 var objectHelper    = require('../helpers/object'),
-    httpErrors      = require('../helpers/http.errors'),
     userDao         = require('../manager/dao').User,
     userManager     = require('../manager').User,
-    stringValidator = require('../validator').String,
+    userValidator   = require('../validator/user'),
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
     errorHandler    = require('./default').errorHandler,
@@ -19,27 +18,31 @@ var objectHelper    = require('../helpers/object'),
  *
  * @param {Request} req
  * @param {Response} res
+ * @param next
  */
-var show = function(req, res) {
+var show = function(req, res, next) {
     console.log('controller:users:show');
 
-    stringValidator.isDocumentId(req.params.id)
-        .then(function(value) {
-            return userDao.findOneReadOnlyById(value);
+    userValidator.validate(req.params, 'paramRouteShow')
+        .then(function(resolved) {
+            return userDao.findOneReadOnlyById(resolved.value.id);
         })
         .then(function(data) {
             if (!data) {
-                return when.reject(new NotFoundBim(
-                    errors.user.not_found.code,
-                    errors.user.not_found.message
-                ));
+                return when.reject({
+                    value: req.params,
+                    bim: new NotFoundBim(
+                        errors.user.not_found.code,
+                        errors.user.not_found.message
+                    )
+                });
             }
             data = objectHelper.removeProperties(['__v', 'password'], data);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
         }).then(null, function(err) {
-            errorHandler(err, req, res);
+            next(err.bim);
         });
 };
 

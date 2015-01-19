@@ -8,6 +8,11 @@ var defaultSchema = {
     displayName:    joi.string().min(3).max(30).required()
 };
 
+var paramRouteShowSchema = {
+    id:             joi.string().regex(/^[0-9a-fA-F]{24}$/)
+};
+
 module.exports = {
-    default: defaultSchema
+    default: defaultSchema,
+    paramRouteShow: paramRouteShowSchema
 };

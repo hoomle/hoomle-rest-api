@@ -38,7 +38,6 @@ app.all('/*', require('../middlewares/loadUser'));
 app.route('/homepage').post(controllers.Homepage.create);
 
 // Default errors handler
-app.use(app.oauth.errorHandler());
-// app.use(controllers.Default.errorHandler);
+app.use(controllers.Default.errorHandler);
 
 module.exports = app;
