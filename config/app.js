@@ -21,7 +21,7 @@ app.oauth = oauth2Server({
     grants: ['password'],
     // Access token validity 7 days
     accessTokenLifetime: 60 * 60 * 24 * 7,
-    debug:  true
+    debug: Configuration.env !== 'prod'
 });
 
 // OAuth

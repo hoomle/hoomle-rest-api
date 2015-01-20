@@ -8,11 +8,12 @@ var InternalBim = require('../bim/internalBim'),
 /**
  * Error handler
  *
- * @param {function}     err
+ * @param {function}    err
  * @param {Request}     req
  * @param {Response}    res
+ * @param {function}    next
  */
-var errorHandler = function(err, req, res) {
+var errorHandler = function(err, req, res, next) {
     var bim;
     if (err.isBim !== undefined) {
         bim = err;
