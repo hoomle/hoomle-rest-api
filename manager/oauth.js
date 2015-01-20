@@ -1,6 +1,7 @@
 'use strict';
 
 var userDao         = require('../manager/dao/user'),
+    userHelper      = require('../helpers/user'),
     AccessToken     = require('../models').AccessToken,
     model           = module.exports;
 
@@ -80,9 +81,13 @@ model.saveAccessToken = function(token, clientId, expires, userId, callback) {
 model.getUser = function(username, password, callback) {
     console.log('oauth:getUser (username: ' + username + ')');
     userDao
-        .findOneReadOnlyByEmailAndPassword(username, password)
+        .findOneReadOnlyByEmail(username)
         .then(function(user) {
-            callback(null, user);
+            if (user !== null && userHelper.comparePassword(password, user.password)) {
+                callback(null, user);
+            } else {
+                callback(null, null);
+            }
         }, function(err) {
             callback(err);
         });

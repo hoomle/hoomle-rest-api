@@ -1,6 +1,7 @@
 'use strict';
 
-var ObjectId    = require('mongoose').Types.ObjectId;
+var userHelper  = require('../helpers/user'),
+    ObjectId    = require('mongoose').Types.ObjectId;
 
 module.exports.Users = [
     // Immutable users
@@ -8,7 +9,7 @@ module.exports.Users = [
         // 0
         _id             : new ObjectId('5478f34eb576b4a30295d914'),
         email           : 'stanislas.chollet@gmail.com',
-        password        : '0000',
+        password        : userHelper.generateHash('0000'),
         displayName     : 'Stan Chollet',
         createdAt       : new Date('2014-11-28T22:12:30.182Z')
     }
