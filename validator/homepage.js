@@ -84,7 +84,11 @@ var validateHomepage = function(value, schemaName) {
         return _slugAlreadyExist(resolved.value, resolved.bim, schema);
     };
 
-    return promise.then(promiseSlugAlreadyExist, promiseSlugAlreadyExist);
+    if (schemaName === 'default' || schemaName === undefined) {
+        return promise.then(promiseSlugAlreadyExist, promiseSlugAlreadyExist);
+    } else {
+        return promise;
+    }
 };
 
 module.exports = {

@@ -68,11 +68,9 @@ describe('validator / homepage', function() {
             bio             : 'my bio',
             location        : 'Orleans'
         };
-        var bim = new Bim();
         homepageValidator.validate(
             homepage,
-            bim,
-            schema.getSchema('homepage')
+            'default'
         ).then(function(resolved) {
             expect(resolved.value)
                 .to.be.deep.equals(homepage);
@@ -93,11 +91,9 @@ describe('validator / homepage', function() {
             bio             : 'm',
             location        : 'O'
         };
-        var bim = new Bim();
         homepageValidator.validate(
             homepage,
-            bim,
-            schema.getSchema('homepage')
+            'default'
         ).then(null, function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(homepage);

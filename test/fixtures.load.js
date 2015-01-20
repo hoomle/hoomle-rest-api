@@ -19,4 +19,9 @@ MongoClient.connect(configuration.mongodb, function(err, db) {
     collectionHomepages.remove(function() {
         collectionHomepages.insert(DataFixtures.Homepage, {w:1}, function() {});
     });
+
+    var collectionAccessTokens = db.collection('accesstokens');
+    collectionAccessTokens.remove(function() {
+        collectionAccessTokens.insert(DataFixtures.AccessToken, {w:1}, function() {});
+    });
 });

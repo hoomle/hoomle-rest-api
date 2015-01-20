@@ -6,9 +6,7 @@ var objectHelper    = require('../helpers/object'),
     userValidator   = require('../validator/user'),
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
-    errorHandler    = require('./default').errorHandler,
-    when            = require('when'),
-    _               = require('lodash');
+    when            = require('when');
 
 /**
  * GET  /users/:id
@@ -18,7 +16,7 @@ var objectHelper    = require('../helpers/object'),
  *
  * @param {Request} req
  * @param {Response} res
- * @param next
+ * @param {function} next
  */
 var show = function(req, res, next) {
     console.log('controller:users:show');
@@ -58,8 +56,9 @@ var show = function(req, res, next) {
  *
  * @param {Request} req
  * @param {Response} res
+ * @param {function} next
  */
-var create = function(req, res) {
+var create = function(req, res, next) {
     console.log('controller:users:create');
 
     userManager
@@ -70,10 +69,7 @@ var create = function(req, res) {
                 .status(201)
                 .send(JSON.stringify(resolved.value));
         }, function(err) {
-            res
-                .contentType('application/json')
-                .status(err.bim.status)
-                .send(err.bim.render('json'));
+            next(err.bim);
         });
 };
 

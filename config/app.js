@@ -19,6 +19,8 @@ app.use(methodOverride());
 app.oauth = oauth2Server({
     model:  oauthManager,
     grants: ['password'],
+    // Access token validity 7 days
+    accessTokenLifetime: 60 * 60 * 24 * 7,
     debug:  true
 });
 

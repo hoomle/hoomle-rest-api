@@ -6,7 +6,6 @@ var objectHelper        = require('../helpers/object'),
     homepageValidator   = require('../validator').Homepage,
     errors              = require('../validator').Errors,
     NotFoundBim         = require('../bim/notFoundBim'),
-    errorHandler        = require('./default').errorHandler,
     when                = require('when');
 
 /**
@@ -17,25 +16,31 @@ var objectHelper        = require('../helpers/object'),
  *
  * @param {Request} req
  * @param {Response} res
+ * @param {function} next
  */
-var show = function(req, res) {
+var show = function(req, res, next) {
     console.log('controller:homepages:show');
 
-    // TODO Valid the slug format
-    homepageDao.findOneReadOnlyBySlug(req.params.slug)
+    homepageValidator.validate(req.params, 'paramRouteShow')
+        .then(function(resolved) {
+            return homepageDao.findOneReadOnlyBySlug(resolved.value.slug);
+        })
         .then(function(data) {
             if (!data) {
-                return when.reject(new NotFoundBim(
-                    errors.homepage.not_found.code,
-                    errors.homepage.not_found.message
-                ));
+                return when.reject({
+                    value: req.params,
+                    bim: new NotFoundBim(
+                        errors.homepage.not_found.code,
+                        errors.homepage.not_found.message
+                    )
+                });
             }
             data = objectHelper.removeProperties(['__v'], data);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
         }).then(null, function(err) {
-            errorHandler(err, req, res);
+            next(err.bim);
         });
 };
 
@@ -51,8 +56,9 @@ var show = function(req, res) {
  *
  * @param {Request} req
  * @param {Response} res
+ * @param {function} next
  */
-var create = function(req, res) {
+var create = function(req, res, next) {
     console.log('controller:homepages:create');
 
     homepageValidator
@@ -69,10 +75,7 @@ var create = function(req, res) {
                 .status(201)
                 .send(JSON.stringify(homepageCreated));
         }, function(err) {
-            res
-                .contentType('application/json')
-                .status(err.bim.status)
-                .send(err.bim.render('json'));
+            next(err.bim);
         });
 };
 
