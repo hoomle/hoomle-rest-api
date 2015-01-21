@@ -1,6 +1,6 @@
 'use strict';
 
-var adapterUsers    = require('../../../adapter/index').User,
+var adapterUsers    = require('../../../src/adapter').User,
     expect          = require('chai').expect;
 
 describe('adapter / user', function() {

@@ -1,8 +1,8 @@
 'use strict';
 
 var expect          = require('chai').expect,
-    NotFoundBim     = require('../../../bim/notFoundBim'),
-    errors          = require('../../../validator/errors');
+    NotFoundBim     = require('../../../src/bim/notFoundBim'),
+    errors          = require('../../../src/validator/errors');
 
 describe('bim / NotFoundBim', function() {
     it('constructor', function() {

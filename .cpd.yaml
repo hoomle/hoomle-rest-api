@@ -1,0 +1,23 @@
+path:
+  - '.'
+files:
+  - 'bim/**/*.js'
+  - 'cli/**/*.js'
+  - 'config/**/*.js'
+  - 'controllers/**/*.js'
+  - 'helpers/**/*.js'
+  - 'manager/**/*.js'
+  - 'middleswares/**/*.js'
+  - 'models/**/*.js'
+  - 'render/**/*.js'
+  - 'tasks/**/*.js'
+  - 'validator/**/*.js'
+languages:
+  - javascript
+  - js
+exclude:
+  - 'node_modules/**'
+  - 'reports/**'
+  - 'test/**'
+min-lines:
+  - 15

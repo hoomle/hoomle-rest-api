@@ -1,10 +1,10 @@
 'use strict';
 
-var Bim             = require('../../../../bim/bim'),
-    BimError        = require('../../../../bim/bimError'),
-    joi             = require('joi'),
-    validate        = require('../../../../validator/joi/validate'),
-    expect          = require('chai').expect;
+var joi             = require('joi'),
+    expect          = require('chai').expect,
+    Bim             = require('../../../../src/bim/bim'),
+    BimError        = require('../../../../src/bim/bimError'),
+    validate        = require('../../../../src/validator/joi/validate');
 
 describe('validator / joi / validate', function() {
     it('invalid value', function(done) {

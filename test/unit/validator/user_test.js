@@ -1,10 +1,10 @@
 'use strict';
 
-var Bim             = require('../../../bim/bim'),
-    errors          = require('../../../validator/errors'),
-    userValidator   = require('../../../validator/user'),
-    schema          = require('../../../validator/joi/schema'),
-    expect          = require('chai').expect;
+var expect          = require('chai').expect,
+    Bim             = require('../../../src/bim/bim'),
+    errors          = require('../../../src/validator/errors'),
+    userValidator   = require('../../../src/validator/user'),
+    schema          = require('../../../src/validator/joi/schema');
 
 // Load data for tests
 require('../../fixtures.load');

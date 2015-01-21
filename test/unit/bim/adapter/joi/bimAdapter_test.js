@@ -1,9 +1,9 @@
 'use strict';
 
-var bimAdapter      = require('../../../../../bim/adapters/joi/bimAdapter'),
-    Bim             = require('../../../../../bim/bim'),
-    BimError        = require('../../../../../bim/bimError'),
-    expect          = require('chai').expect;
+var expect          = require('chai').expect,
+    bimAdapter      = require('../../../../../src/bim/adapters/joi/bimAdapter'),
+    Bim             = require('../../../../../src/bim/bim'),
+    BimError        = require('../../../../../src/bim/bimError');
 
 describe('bim / adapter / joi / bimAdapter', function() {
     it('adapt joi error with errors', function() {

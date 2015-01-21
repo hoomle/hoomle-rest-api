@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./app.js",
-    "test": "HOOLE_API_MONGODB_PATH=mongodb://localhost/hooletest gulp tests"
+    "test": "grunt test"
   },
   "contributors": [
     {
@@ -32,21 +32,30 @@
     "when": "^3.4.2"
   },
   "devDependencies": {
+    "blanket": "^1.1.6",
     "chai": "^1.10.0",
-    "gulp": "^3.8.10",
-    "gulp-clean": "^0.3.1",
-    "gulp-if": "^1.2.5",
-    "gulp-jscs-custom": "^0.1.2",
-    "gulp-jshint": "^1.9.0",
-    "gulp-mocha": "^2.0.0",
-    "gulp-util": "^3.0.1",
+    "grunt": "^0.4.5",
+    "grunt-blanket": "0.0.8",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscpd": "0.0.11",
+    "grunt-jscs": "^1.2.0",
+    "grunt-mkdir": "^0.1.2",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-plato": "^1.2.1",
     "jshint": "^2.5.11",
     "jshint-loader": "^0.8.0",
     "jshint-stylish": "^1.0.0",
+    "load-grunt-tasks": "^2.0.0",
+    "matchdep": "^0.3.0",
     "minimist": "^1.1.0",
     "mocha": "^2.1.0",
     "run-sequence": "^1.0.2",
     "sinon": "^1.12.2",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "time-grunt": "^1.0.0",
+    "travis-cov": "^0.2.5"
   }
 }

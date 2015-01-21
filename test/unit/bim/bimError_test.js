@@ -1,7 +1,7 @@
 'use strict';
 
-var BimError        = require('../../../bim/bimError'),
-    expect          = require('chai').expect;
+var expect          = require('chai').expect,
+    BimError        = require('../../../src/bim/bimError');
 
 describe('bim / BimError', function() {
     it('constructor', function() {

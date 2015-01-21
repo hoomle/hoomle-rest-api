@@ -1,9 +1,9 @@
 'use strict';
 
-var Bim                 = require('../../../bim/bim'),
-    errors              = require('../../../validator/errors'),
-    homepageValidator   = require('../../../validator/homepage'),
-    schema              = require('../../../validator/joi/schema'),
+var Bim                 = require('../../../src/bim/bim'),
+    errors              = require('../../../src/validator/errors'),
+    homepageValidator   = require('../../../src/validator/homepage'),
+    schema              = require('../../../src/validator/joi/schema'),
     expect              = require('chai').expect;
 
 // Load data for tests

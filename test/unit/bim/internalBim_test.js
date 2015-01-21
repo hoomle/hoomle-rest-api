@@ -1,8 +1,8 @@
 'use strict';
 
-var InternalBim     = require('../../../bim/internalBim'),
-    expect          = require('chai').expect,
-    errors          = require('../../../validator/errors');
+var expect          = require('chai').expect,
+    InternalBim     = require('../../../src/bim/internalBim'),
+    errors          = require('../../../src/validator/errors');
 
 describe('bim / InternalBim', function() {
     it('constructor', function() {

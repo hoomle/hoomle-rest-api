@@ -1,7 +1,7 @@
 'use strict';
 
-var objectHelper    = require('../../../helpers/object'),
-    expect          = require('chai').expect;
+var expect          = require('chai').expect,
+    objectHelper    = require('../../../src/helpers/object');
 
 describe('helpers / object', function() {
     it('removeProperties() - Remove properties from object', function() {
