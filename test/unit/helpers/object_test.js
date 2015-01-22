@@ -1,9 +1,9 @@
 'use strict';
 
 var expect          = require('chai').expect,
-    objectHelper    = require('../../../src/helpers/object');
+    objectHelper    = require('../../../src/helper/object');
 
-describe('helpers / object', function() {
+describe('helper / object', function() {
     it('removeProperties() - Remove properties from object', function() {
         var testObject = {
             property1: 'value',

@@ -1,9 +1,9 @@
 'use strict';
 
 var expect          = require('chai').expect,
-    arrayHelper     = require('../../../src/helpers/array');
+    arrayHelper     = require('../../../src/helper/array');
 
-describe('helpers / array', function() {
+describe('helper / array', function() {
     it('pushToPropertyUnknow() - Push object to property (array) of an object', function() {
         var testObject = {};
 

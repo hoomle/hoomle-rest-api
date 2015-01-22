@@ -3,9 +3,9 @@
 'use strict';
 
 var CommandAsker    = require('command-asker'),
-    cli             = require('../helpers/console'),
-    userHelper      = require('../helpers/user'),
-    User            = require('../models/index').User;
+    cli             = require('../helper/console'),
+    userHelper      = require('../helper/user'),
+    User            = require('../model/index').User;
 
 cli.banner();
 cli.ok('Interactive command to add new user');

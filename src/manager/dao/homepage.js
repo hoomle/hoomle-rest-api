@@ -1,7 +1,7 @@
 'use strict';
 
 var ObjectId    = require('mongoose').Types.ObjectId,
-    Homepage    = require('../../models/index').Homepage;
+    Homepage    = require('../../model/index').Homepage;
 
 /**
  * Find homepage by ID.

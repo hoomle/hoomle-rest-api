@@ -1,6 +1,6 @@
 'use strict';
 
-var userHelper  = require('../src/helpers/user'),
+var userHelper  = require('../src/helper/user'),
     ObjectId    = require('mongoose').Types.ObjectId;
 
 module.exports.Users = [

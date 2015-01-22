@@ -3,9 +3,9 @@
 var when            = require('when'),
     userValidator   = require('../validator').User,
     errors          = require('../validator').Errors,
-    userHelper      = require('../helpers/user'),
+    userHelper      = require('../helper/user'),
     BimError        = require('../bim/bimError'),
-    User            = require('../models/index').User;
+    User            = require('../model/index').User;
 
 /**
  * Create an user

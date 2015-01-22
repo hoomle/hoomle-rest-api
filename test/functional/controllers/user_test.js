@@ -20,7 +20,13 @@ describe('GET /users/{id}', function() {
                         _id             : '5478f34eb576b4a30295d914',
                          email          : 'stanislas.chollet@gmail.com',
                         displayName     : 'Stan Chollet',
-                        createdAt       : '2014-11-28T22:12:30.182Z'
+                        createdAt       : '2014-11-28T22:12:30.182Z',
+                        links           : [
+                            {
+                                href: 'http://localhost:5001/users/5478f34eb576b4a30295d914',
+                                rel: 'self'
+                            }
+                        ]
                     });
             })
             .expect(200, done);
@@ -61,12 +67,10 @@ describe('POST /users', function() {
                 }
 
                 expect(res.body)
-                    .to.contain.keys('_id', 'email', 'displayName', 'createdAt');
+                    .to.contain.keys('_id', 'email', 'displayName', 'createdAt', 'links');
 
-                /*
                 expect(res.body)
-                    .to.not.contain.keys('__v');
-                */
+                    .to.not.contain.keys('__v', 'password');
 
                 expect(res.body.email)
                     .to.equal('chuck.nowrisse@gmail.com');

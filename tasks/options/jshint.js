@@ -8,8 +8,6 @@ module.exports = {
           reporter: require('jshint-stylish')
         },
         src: [
-            'Gruntfile.js',
-            'grunt-tasks/**/*.js',
             './**/*.js',
             '!./node_modules/**/*.js'
         ]
@@ -22,8 +20,6 @@ module.exports = {
             reporterOutput: './reports/jshint/jshint-result.xml'
         },
         src: [
-            'Gruntfile.js',
-            'grunt-tasks/**/*.js',
             './**/*.js',
             '!./node_modules/**/*.js'
         ]

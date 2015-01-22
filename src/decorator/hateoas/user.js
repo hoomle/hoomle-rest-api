@@ -1,7 +1,7 @@
 'use strict';
 
 var configuration   = require('../../config/configuration'),
-    arrayHelper     = require('../../helpers/array');
+    arrayHelper     = require('../../helper/array');
 
 /**
  * Decorate the user object to respect the hateoas principles
@@ -11,8 +11,7 @@ var configuration   = require('../../config/configuration'),
 function hateoasize(user) {
     arrayHelper.pushToPropertyUnknow(user, 'links', {
         rel     : 'self',
-        href    : configuration.getRootUrl() + '/users/' + user._id,
-        method  : 'GET'
+        href    : configuration.getRootUrl() + '/users/' + user._id
     });
     return user;
 }

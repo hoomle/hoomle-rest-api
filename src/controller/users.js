@@ -1,12 +1,14 @@
 'use strict';
 
 var when            = require('when'),
-    objectHelper    = require('../helpers/object'),
     userDao         = require('../manager/dao/index').User,
     userManager     = require('../manager/index').User,
     userValidator   = require('../validator/user'),
     errors          = require('../validator').Errors,
-    NotFoundBim     = require('../bim/notFoundBim');
+    NotFoundBim     = require('../bim/notFoundBim'),
+    decorate        = require('../decorator').decorate,
+    userMask        = require('../decorator/mask').User,
+    userHateoas     = require('../decorator/hateoas').User;
 
 /**
  * GET  /users/:id
@@ -33,7 +35,10 @@ var show = function(req, res, next) {
                     )
                 });
             }
-            data = objectHelper.removeProperties(['__v', 'password'], data);
+            data = decorate(data, [
+                userMask,
+                userHateoas
+            ]);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
@@ -60,10 +65,14 @@ var create = function(req, res, next) {
     userManager
         .create(req.body)
         .then(function(resolved) {
+            var data = decorate(resolved.value.toObject(), [
+                userMask,
+                userHateoas
+            ]);
             res
                 .contentType('application/json')
                 .status(201)
-                .send(JSON.stringify(resolved.value));
+                .send(JSON.stringify(data));
         }, function(err) {
             next(err.bim);
         });

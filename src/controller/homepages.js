@@ -1,12 +1,14 @@
 'use strict';
 
 var when                = require('when'),
-    objectHelper        = require('../helpers/object'),
     homepageDao         = require('../manager/dao/index').Homepage,
     homepageManager     = require('../manager/index').Homepage,
     homepageValidator   = require('../validator').Homepage,
     errors              = require('../validator').Errors,
-    NotFoundBim         = require('../bim/notFoundBim');
+    NotFoundBim         = require('../bim/notFoundBim'),
+    decorate            = require('../decorator').decorate,
+    homepageMask        = require('../decorator/mask').Homepage,
+    homepageHateoas     = require('../decorator/hateoas').Homepage;
 
 /**
  * GET  /homepage/:slug
@@ -33,7 +35,10 @@ var show = function(req, res, next) {
                     )
                 });
             }
-            data = objectHelper.removeProperties(['__v'], data);
+            data = decorate(data, [
+                homepageMask,
+                homepageHateoas
+            ]);
             res
                 .contentType('application/json')
                 .send(JSON.stringify(data));
@@ -66,10 +71,14 @@ var create = function(req, res, next) {
             return when.reject(err);
         })
         .then(function(homepageCreated) {
+            var data = decorate(homepageCreated.toObject(), [
+                homepageMask,
+                homepageHateoas
+            ]);
             res
                 .contentType('application/json')
                 .status(201)
-                .send(JSON.stringify(homepageCreated));
+                .send(JSON.stringify(data));
         }, function(err) {
             next(err.bim);
         });

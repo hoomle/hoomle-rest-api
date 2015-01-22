@@ -3,7 +3,7 @@
 var when                = require('when'),
     errors              = require('../validator').Errors,
     InternalBim         = require('../bim/internalBim'),
-    Homepage            = require('../models/index').Homepage;
+    Homepage            = require('../model/index').Homepage;
 
 /**
  * Create an homepage

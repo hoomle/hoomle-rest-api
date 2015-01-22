@@ -22,7 +22,17 @@ describe('GET /homepage/{id}', function() {
                         bio             : 'Passionnate about travel, software development and sport.',
                         location        : 'Paris, France',
                         owner           : '5478f34eb576b4a30295d914',
-                        createdAt       : '2014-11-28T22:12:30.182Z'
+                        createdAt       : '2014-11-28T22:12:30.182Z',
+                        links           : [
+                            {
+                                href: 'http://localhost:5001/homepages/stan',
+                                rel: 'self'
+                            },
+                            {
+                                href: 'http://localhost:5001/users/5478f34eb576b4a30295d914',
+                                rel: 'owner'
+                            }
+                        ]
                     });
             })
             .expect(200, done);
@@ -56,7 +66,10 @@ describe('POST /homepage', function() {
                 }
 
                 expect(res.body)
-                    .to.contain.keys('_id', 'slug', 'createdAt', 'bio', 'location');
+                    .to.contain.keys('_id', 'slug', 'createdAt', 'bio', 'location', 'links');
+
+                expect(res.body)
+                    .to.not.contain.keys('__v');
 
                 expect(res.body.slug)
                     .to.equal('new_homepage');

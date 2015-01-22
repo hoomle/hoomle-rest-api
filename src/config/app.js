@@ -6,7 +6,7 @@ var express             = require('express'),
     methodOverride      = require('method-override'),
     oauth2Server        = require('oauth2-server'),
     configuration       = require('./configuration'),
-    controllers         = require('../controllers/index'),
+    controller          = require('../controller'),
     oauthManager        = require('../manager/oauth'),
     app                 = express();
 
@@ -30,18 +30,18 @@ app.oauth = oauth2Server({
 app.all('/oauth/access_token', app.oauth.grant());
 
 // Routes unlogged
-app.route('/homepage/:slug').get(controllers.Homepage.show);
-app.route('/users/:id').get(controllers.User.show);
-app.route('/users').post(controllers.User.create);
+app.route('/homepage/:slug').get(controller.Homepage.show);
+app.route('/users/:id').get(controller.User.show);
+app.route('/users').post(controller.User.create);
 
 // OAuth firewall
 app.all('/*', app.oauth.authorise());
-app.all('/*', require('../middlewares/loadUser'));
+app.all('/*', require('../middleware/loadUser'));
 
 // Routes logged
-app.route('/homepage').post(controllers.Homepage.create);
+app.route('/homepage').post(controller.Homepage.create);
 
 // Default errors handler
-app.use(controllers.Default.errorHandler);
+app.use(controller.Default.errorHandler);
 
 module.exports = app;

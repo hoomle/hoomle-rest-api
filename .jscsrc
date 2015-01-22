@@ -60,7 +60,6 @@
   "disallowYodaConditions"                    : true,
   "excludeFiles"                              : [
     "node_modules/**",
-    "coverage/**",
     "report/**"
   ]
 }

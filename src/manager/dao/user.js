@@ -1,7 +1,7 @@
 'use strict';
 
 var ObjectId        = require('mongoose').Types.ObjectId,
-    User            = require('../../models/index').User;
+    User            = require('../../model/index').User;
 
 /**
  * Find user by ID.

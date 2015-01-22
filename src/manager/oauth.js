@@ -1,8 +1,8 @@
 'use strict';
 
 var userDao         = require('./dao/user'),
-    userHelper      = require('../helpers/user'),
-    AccessToken     = require('../models/index').AccessToken,
+    userHelper      = require('../helper/user'),
+    AccessToken     = require('../model/index').AccessToken,
     model           = module.exports;
 
 /**

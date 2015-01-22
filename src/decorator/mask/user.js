@@ -1,6 +1,6 @@
 'use strict';
 
-var objectHelper = require('../../helpers/object');
+var objectHelper = require('../../helper/object');
 
 /**
  * Hide some data of user before expose it to the final users
