@@ -1,0 +1,201 @@
+swagger: '2.0'
+info:
+  title: Hoole API
+  description: Public API of hoole.com
+  version: "1.0.0"
+host: localhost
+schemes:
+  - http
+  - https
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /users/{id}:
+    get:
+      summary: Users details
+      description: |
+        The users endpoint returns public information about the *User* selected by its ID
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          type: string
+      tags:
+        - Public
+      responses:
+        200:
+          description: User information
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: User not found
+          schema:
+            $ref: '#/definitions/Errors'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+  /users:
+    post:
+      summary: Register a new user
+      description: |
+        Register a new user on the product
+      tags:
+        - Public
+      parameters:
+        - name: email
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: displayName
+          in: body
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: User created
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Errors relative to the validation of user details
+          schema:
+            $ref: '#/definitions/Errors'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+  /homepages:
+    post:
+      summary: Register a new hompage
+      description: |
+        Register a new homepage to the user who are previously authenticate
+      tags:
+        - Need authentication
+      security:
+        - oauth2: []
+      parameters:
+        - name: slug
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: bio
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: location
+          in: body
+          required: true
+          schema:
+            type: string
+      responses:
+        201:
+          description: Homepage created
+          schema:
+            $ref: '#/definitions/Homepage'
+        400:
+          description: Errors relative to the validation of homepage details
+          schema:
+            $ref: '#/definitions/Errors'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+  /homepages/{slug}:
+    get:
+      summary: Homepages details
+      description: |
+        The homepages endpoint returns public information about the *Homepage* selected by its slug
+      parameters:
+        - name: slug
+          in: path
+          description: Slug
+          required: true
+          type: string
+      tags:
+        - Public
+      responses:
+        200:
+          description: Homepage information
+          schema:
+            $ref: '#/definitions/Homepage'
+        404:
+          description: Homepage not found
+          schema:
+            $ref: '#/definitions/Errors'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Errors'
+definitions:
+  Homepage:
+    properties:
+      _id:
+        type: string
+        description: Unique ID representing a specific homepage.
+      slug:
+        type: string
+        description: Slug of homepage (Used to identify the homepage of the user).
+      bio:
+        type: string
+        description: Display the bio of user.
+      location:
+        type: string
+        format: dateTime
+        description: Location of the user
+      owner:
+        type: string
+        format: string
+        description: Unique ID representing the owner of the homepage
+      createdAt:
+        type: string
+        format: dateTime
+        description: Date when the homepage have been created
+  User:
+    properties:
+      _id:
+        type: string
+        description: Unique ID representing a specific user.
+      email:
+        type: string
+        description: Email of the user.
+      displayName:
+        type: string
+        description: Display name of user.
+      createdAt:
+        type: string
+        format: dateTime
+        description: Registered date
+  Error:
+    properties:
+      code:
+        type: string
+        description: Code of error
+      path:
+        type: string
+        description: Path of the property in error (relative to the object sent)
+      message:
+        type: string
+        description: Description of the error
+  Errors:
+    properties:
+      errors:
+        type: array
+        description: List of Error
+        items:
+          $ref: '#/definitions/Error'
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: password
+    tokenUrl: /oauth/access_token
