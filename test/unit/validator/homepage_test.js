@@ -4,12 +4,14 @@ var Bim                 = require('../../../src/bim/bim'),
     errors              = require('../../../src/validator/errors'),
     homepageValidator   = require('../../../src/validator/homepage'),
     schema              = require('../../../src/validator/joi/schema'),
-    expect              = require('chai').expect;
-
-// Load data for tests
-require('../../fixtures.load');
+    expect              = require('chai').expect,
+    loadFixtures        = require('../../fixtures.load');
 
 describe('validator / homepage', function() {
+    before(function(done) {
+        loadFixtures(done);
+    });
+
     it('_slugAlreadyExist() check if slug not exist', function(done) {
         var homepage = {slug: 'unused_slug'};
         var bim = new Bim();

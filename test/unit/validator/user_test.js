@@ -4,12 +4,14 @@ var expect          = require('chai').expect,
     Bim             = require('../../../src/bim/bim'),
     errors          = require('../../../src/validator/errors'),
     userValidator   = require('../../../src/validator/user'),
-    schema          = require('../../../src/validator/joi/schema');
-
-// Load data for tests
-require('../../fixtures.load');
+    schema          = require('../../../src/validator/joi/schema'),
+    loadFixtures    = require('../../fixtures.load');
 
 describe('validator / user', function() {
+    before(function(done) {
+        loadFixtures(done);
+    });
+
     it('_emailAlreadyExist() email not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();
