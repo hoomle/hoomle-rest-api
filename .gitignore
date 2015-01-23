@@ -1,12 +1,12 @@
 # Git uses this file to determine which files and directories to ignore
 # https://help.github.com/articles/ignoring-files
 
-build
-node_modules
-npm-debug.log
+/build
+/node_modules
+/npm-debug.log
 
 # Idea
 .idea/
 
 # Reports
-reports/
+/reports
