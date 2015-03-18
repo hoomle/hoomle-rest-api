@@ -11,7 +11,6 @@ var Bim                 = require('../../../src/bim/bim'),
     when                = require('when');
 
 describe('validator / homepage', function() {
-
     it('_slugAlreadyExist() check if slug not exist', function(done) {
         var homepage = {slug: 'unused_slug'};
         var bim = new Bim();
