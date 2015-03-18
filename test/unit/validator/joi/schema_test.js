@@ -5,19 +5,16 @@ var expect          = require('chai').expect,
     userSchema      = require('../../../../src/validator/schema/user');
 
 describe('validator / joi / schema', function() {
-    it('getSchema() default', function() {
-        var schemaRetrieved = schema.getSchema('user', 'default');
+    it('getSchema() object', function() {
+        var schemaRetrieved = schema.getSchema('user', 'object');
 
         expect(schemaRetrieved)
-            .to.be.deep.equals(userSchema.default);
+            .to.be.deep.equals(userSchema.object);
     });
 
     it('getSchema() unknow', function() {
-        var schemaRetrieved = schema.getSchema('user', 'kevin');
-
-        expect(schemaRetrieved)
-            .to.be.deep.equals(userSchema.default);
+        expect(function() {
+            schema.getSchema('user', 'unknow')
+        }).to.throw('The schema unknow does not exist');
     });
-
-    // TODO Check if the "schemaName" exist
 });

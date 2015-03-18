@@ -1,9 +1,11 @@
 'use strict';
 
 var userDao         = require('./user'),
-    homepageDao     = require('./homepage');
+    homepageDao     = require('./homepage'),
+    hoomleDao       = require('./hoomle');
 
 module.exports = {
     User        : userDao,
-    Homepage    : homepageDao
+    Homepage    : homepageDao,
+    Hoomle      : hoomleDao
 };

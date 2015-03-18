@@ -26,20 +26,20 @@ app.oauth = oauth2Server({
     debug: configuration.env !== 'prod'
 });
 
+// Routes unlogged
+app.route('/hoomle').post(controller.Hoomle.create);
+app.route('/hoomle/:slug').get(controller.Hoomle.show);
+app.route('/users/:id').get(controller.User.show);
+
 // OAuth
 app.all('/oauth/access_token', app.oauth.grant());
 
-// Routes unlogged
-app.route('/homepage/:slug').get(controller.Homepage.show);
-app.route('/users/:id').get(controller.User.show);
-app.route('/users').post(controller.User.create);
-
 // OAuth firewall
-app.all('/*', app.oauth.authorise());
-app.all('/*', require('../middleware/loadUser'));
+// app.all('/*', app.oauth.authorise());
+// app.all('/*', require('../middleware/loadUser'));
 
 // Routes logged
-app.route('/homepage').post(controller.Homepage.create);
+// app.route('/homepage').post(controller.Homepage.create);
 
 // Default errors handler
 app.use(controller.Default.errorHandler);

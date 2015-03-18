@@ -8,7 +8,6 @@ module.exports = function(db, conn) {
     var homepageSchema = new db.Schema({
         slug        : String,
         bio         : String,
-        location    : String,
         owner       : {type: ObjectId, ref: 'User'},
         createdAt   : {type: Date, default: Date.now}
     });

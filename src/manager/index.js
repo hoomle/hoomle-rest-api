@@ -2,5 +2,6 @@
 
 module.exports = {
     User        : require('./user'),
-    Homepage    : require('./homepage')
+    Homepage    : require('./homepage'),
+    Hoomle      : require('./hoomle')
 };

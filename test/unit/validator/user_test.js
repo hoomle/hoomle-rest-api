@@ -5,20 +5,23 @@ var expect          = require('chai').expect,
     errors          = require('../../../src/validator/errors'),
     userValidator   = require('../../../src/validator/user'),
     schema          = require('../../../src/validator/joi/schema'),
-    loadFixtures    = require('../../fixtures.load');
+    sinon           = require('sinon'),
+    when            = require('when'),
+    userDao         = require('../../../src/manager/dao').User;
 
 describe('validator / user', function() {
-    before(function(done) {
-        loadFixtures(done);
-    });
-
     it('_emailAlreadyExist() email not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();
+
+        var userDaoStub = sinon.stub(userDao, 'findOneReadOnlyByEmail');
+        userDaoStub.returns(when.resolve(null));
+
         userValidator._emailAlreadyExist(
                 user,
                 bim,
-                schema.getSchema('user', 'default')
+                schema.getSchema('user', 'object'),
+                'email'
             )
             .then(function(resolved) {
                 expect(resolved.value)
@@ -30,6 +33,8 @@ describe('validator / user', function() {
                 expect(resolved.bim.isValid())
                     .to.be.true;
 
+                userDaoStub.restore();
+
                 done();
             });
     });
@@ -37,10 +42,15 @@ describe('validator / user', function() {
     it('_emailAlreadyExist() email exist', function(done) {
         var user = {email: 'stanislas.chollet@gmail.com'};
         var bim = new Bim();
+
+        var userDaoStub = sinon.stub(userDao, 'findOneReadOnlyByEmail');
+        userDaoStub.returns(when.resolve({email: 'stanislas.chollet@gmail.com'}));
+
         userValidator._emailAlreadyExist(
                 user,
                 bim,
-                schema.getSchema('user')
+                schema.getSchema('user', 'object'),
+                'email'
             ).then(function(obj) {
                 console.log(obj);
             }, function(resolved) {
@@ -62,6 +72,8 @@ describe('validator / user', function() {
                 expect(resolved.bim.isValid())
                     .to.be.false;
 
+                userDaoStub.restore();
+
                 done();
             });
     });
@@ -72,11 +84,13 @@ describe('validator / user', function() {
             password:       '1234',
             displayName:    'Chuck Norris'
         };
-        var bim = new Bim();
+
+        var userDaoStub = sinon.stub(userDao, 'findOneReadOnlyByEmail');
+        userDaoStub.returns(when.resolve(null));
+
         userValidator.validate(
             user,
-            bim,
-            schema.getSchema('user')
+            'object'
         ).then(function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(user);
@@ -86,6 +100,8 @@ describe('validator / user', function() {
 
                 expect(resolved.bim.isValid())
                     .to.be.true;
+
+                userDaoStub.restore();
 
                 done();
             });
@@ -97,11 +113,13 @@ describe('validator / user', function() {
             password:       '1',
             displayName:    'C'
         };
-        var bim = new Bim();
+
+        var userDaoStub = sinon.stub(userDao, 'findOneReadOnlyByEmail');
+        userDaoStub.returns(when.resolve(user));
+
         userValidator.validate(
             user,
-            bim,
-            schema.getSchema('user')
+            'object'
         ).then(null, function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(user);
@@ -120,6 +138,8 @@ describe('validator / user', function() {
 
                 expect(resolved.bim.isValid())
                     .to.be.false;
+
+                userDaoStub.restore();
 
                 done();
             });

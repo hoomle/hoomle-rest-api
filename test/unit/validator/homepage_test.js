@@ -5,22 +5,27 @@ var Bim                 = require('../../../src/bim/bim'),
     homepageValidator   = require('../../../src/validator/homepage'),
     schema              = require('../../../src/validator/joi/schema'),
     expect              = require('chai').expect,
-    loadFixtures        = require('../../fixtures.load');
+    sinon               = require('sinon'),
+    homepageDao         = require('../../../src/manager/dao').Homepage,
+    BimError            = require('../../../src/bim/bimError'),
+    when                = require('when');
 
 describe('validator / homepage', function() {
-    before(function(done) {
-        loadFixtures(done);
-    });
 
     it('_slugAlreadyExist() check if slug not exist', function(done) {
         var homepage = {slug: 'unused_slug'};
         var bim = new Bim();
+
+        var homepageDaoStub = sinon.stub(homepageDao, 'findOneReadOnlyBySlug');
+
+        homepageDaoStub.returns(when.resolve(null));
+
         homepageValidator._slugAlreadyExist(
-            homepage,
+                homepage,
                 bim,
-                schema.getSchema('homepage', 'default')
-            )
-            .then(function(resolved) {
+                schema.getSchema('homepage', 'object'),
+                'slug'
+            ).then(function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(homepage);
 
@@ -30,6 +35,11 @@ describe('validator / homepage', function() {
                 expect(resolved.bim.isValid())
                     .to.be.true;
 
+                expect(homepageDaoStub)
+                    .to.have.been.called;
+
+                homepageDaoStub.restore();
+
                 done();
             });
     });
@@ -37,42 +47,51 @@ describe('validator / homepage', function() {
     it('_slugAlreadyExist() slug exist', function(done) {
         var homepage = {slug: 'stan'};
         var bim = new Bim();
+
+        var homepageDaoStub = sinon.stub(homepageDao, 'findOneReadOnlyBySlug');
+
+        homepageDaoStub.returns(when.resolve({
+            slug: 'chuck'
+        }));
+
         homepageValidator._slugAlreadyExist(
-            homepage,
-            bim,
-            schema.getSchema('homepage', 'default')
-        ).then(null, function(resolved) {
-                expect(resolved.value)
-                    .to.be.deep.equals(homepage);
+                homepage,
+                bim,
+                schema.getSchema('homepage', 'object'),
+                'slug'
+            ).then(null, function(resolved) {
+                    expect(resolved.value)
+                        .to.be.deep.equals(homepage);
 
-                expect(resolved.bim)
-                    .to.be.an.instanceOf(Bim);
+                    expect(resolved.bim)
+                        .to.be.an.instanceOf(Bim);
 
-                expect(resolved.bim.errors[0].code)
-                    .to.be.equals(errors.homepage.slug_already_exist.code);
+                    expect(resolved.bim.errors[0].code)
+                        .to.be.equals(errors.homepage.slug_already_exist.code);
 
-                expect(resolved.bim.errors[0].path)
-                    .to.be.equals('slug');
+                    expect(resolved.bim.errors[0].path)
+                        .to.be.equals('slug');
 
-                expect(resolved.bim.errors[0].message)
-                    .to.be.equals(errors.homepage.slug_already_exist.message);
+                    expect(resolved.bim.errors[0].message)
+                        .to.be.equals(errors.homepage.slug_already_exist.message);
 
-                expect(resolved.bim.isValid())
-                    .to.be.false;
+                    expect(resolved.bim.isValid())
+                        .to.be.false;
 
-                done();
-            });
+                    homepageDaoStub.restore();
+
+                    done();
+                });
     });
 
     it('validate() valid values', function(done) {
         var homepage = {
             slug            : 'unused_name',
-            bio             : 'my bio',
-            location        : 'Orleans'
+            bio             : 'my bio'
         };
         homepageValidator.validate(
             homepage,
-            'default'
+            'object'
         ).then(function(resolved) {
             expect(resolved.value)
                 .to.be.deep.equals(homepage);
@@ -90,12 +109,11 @@ describe('validator / homepage', function() {
     it('validate() invalid values', function(done) {
         var homepage = {
             slug            : 'stan',
-            bio             : 'm',
-            location        : 'O'
+            bio             : 'm'
         };
         homepageValidator.validate(
             homepage,
-            'default'
+            'object'
         ).then(null, function(resolved) {
                 expect(resolved.value)
                     .to.be.deep.equals(homepage);
@@ -104,9 +122,6 @@ describe('validator / homepage', function() {
                     .to.be.an.instanceOf(Bim);
 
                 expect(resolved.bim.hasErrorWithPath('slug'))
-                    .to.be.true;
-
-                expect(resolved.bim.hasErrorWithPath('location'))
                     .to.be.true;
 
                 expect(resolved.bim.hasErrorWithPath('bio'))

@@ -1,8 +1,7 @@
 'use strict';
 
 var when            = require('when'),
-    userDao         = require('../manager/dao/index').User,
-    userManager     = require('../manager/index').User,
+    userDao         = require('../manager/dao').User,
     userValidator   = require('../validator/user'),
     errors          = require('../validator').Errors,
     NotFoundBim     = require('../bim/notFoundBim'),
@@ -47,38 +46,6 @@ var show = function(req, res, next) {
         });
 };
 
-/**
- * POST  /users
- *
- * Request payload:
- *  {
- *      email: "stanislas.chollet@gmail.com",
- *      password: "0000",
- *      displayName: "Stan Chollet"
- *  }
- *
- * @param {Request} req
- * @param {Response} res
- * @param {function} next
- */
-var create = function(req, res, next) {
-    userManager
-        .create(req.body)
-        .then(function(resolved) {
-            var data = decorate(resolved.value.toObject(), [
-                userMask,
-                userHateoas
-            ]);
-            res
-                .contentType('application/json')
-                .status(201)
-                .send(JSON.stringify(data));
-        }, function(err) {
-            next(err.bim);
-        });
-};
-
 module.exports = {
-    show: show,
-    create: create
+    show: show
 };

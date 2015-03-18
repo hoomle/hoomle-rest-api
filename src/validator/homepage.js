@@ -11,13 +11,17 @@ var when            = require('when'),
 /**
  * Check if the slug is unique
  *
+ * /!\ This trick will be used until Joi accept "specific validator" /!\
+ *
  * @param homepageValidated
  * @param {Bim} bim
  * @param schema
+ * @param propertyName The property which will be mapped to the validator
  * @returns {Promise}
  */
-var _slugAlreadyExist = function(homepageValidated, bim, schema) {
-    if (bim.hasErrorWithPath('slug') || _.isEmpty(homepageValidated.slug) || !_.has(schema, 'slug')) {
+var _slugAlreadyExist = function(homepageValidated, bim, schema, propertyName) {
+    if (bim.hasErrorWithPath(propertyName) || _.isEmpty(homepageValidated[propertyName])
+            || !_.has(schema, propertyName)) {
         var resolved = {
             value: homepageValidated,
             bim: bim
@@ -29,12 +33,12 @@ var _slugAlreadyExist = function(homepageValidated, bim, schema) {
         }
     }
 
-    return homepageDao.findOneReadOnlyBySlug(homepageValidated.slug)
+    return homepageDao.findOneReadOnlyBySlug(homepageValidated[propertyName])
         .then(function(homepage) {
             if (homepage !== null) {
                 var bimError = new BimError(
                     errors.homepage.slug_already_exist.code,
-                    'slug',
+                    propertyName,
                     errors.homepage.slug_already_exist.message
                 );
                 bim.add(bimError);
@@ -58,7 +62,7 @@ var _slugAlreadyExist = function(homepageValidated, bim, schema) {
         }, function() {
             var bimError = new BimError(
                 errors.homepage.internal.code,
-                'slug',
+                propertyName,
                 errors.homepage.internal.message
             );
             bim.add(bimError);
@@ -73,7 +77,7 @@ var _slugAlreadyExist = function(homepageValidated, bim, schema) {
  * Valid the values to record a new homepage
  *
  * @param {Object} value - Homepage data to validate
- * @param {string} schemaName - if it is not specified, "default" will be used
+ * @param {string} schemaName
  * @returns {Promise}
  */
 var validateHomepage = function(value, schemaName) {
@@ -81,10 +85,10 @@ var validateHomepage = function(value, schemaName) {
     var promise = validate(value, schema);
 
     var promiseSlugAlreadyExist = function(resolved) {
-        return _slugAlreadyExist(resolved.value, resolved.bim, schema);
+        return _slugAlreadyExist(resolved.value, resolved.bim, schema, 'slug');
     };
 
-    if (schemaName === 'default' || schemaName === undefined) {
+    if (schemaName === 'object') {
         return promise.then(promiseSlugAlreadyExist, promiseSlugAlreadyExist);
     } else {
         return promise;

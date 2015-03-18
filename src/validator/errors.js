@@ -23,6 +23,10 @@ module.exports = {
         owner_not_exist:        {code: 'homepage.owner_not_exist', message: 'the owner does not exist'},
         not_found:              {code: 'homepage.not_found', message: 'homepage not found'},
         internal:               {code: 'homepage.internal', message: 'homepage internal error'}
+    },
+    hoomle: {
+        not_found:              {code: 'hoomle.not_found', message: 'hoomle not found'},
+        internal:               {code: 'hoomle.internal', message: 'hoomle internal error'}
     }
 };
 /* jshint ignore:end */

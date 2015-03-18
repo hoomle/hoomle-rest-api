@@ -11,13 +11,16 @@ var when            = require('when'),
 /**
  * Check if the email is unique
  *
+ * /!\ This trick will be used until Joi accept "specific validator" /!\
+ *
  * @param userValidated
  * @param {Bim} bim
  * @param schema
+ * @param propertyName The property which will be mapped to the validator
  * @returns {Promise}
  */
-var _emailAlreadyExist = function(userValidated, bim, schema) {
-    if (bim.hasErrorWithPath('email') || _.isEmpty(userValidated.email) || !_.has(schema, 'email')) {
+var _emailAlreadyExist = function(userValidated, bim, schema, propertyName) {
+    if (bim.hasErrorWithPath(propertyName) || _.isEmpty(userValidated[propertyName]) || !_.has(schema, propertyName)) {
         var resolved = {
             value: userValidated,
             bim: bim
@@ -29,12 +32,12 @@ var _emailAlreadyExist = function(userValidated, bim, schema) {
         }
     }
 
-    return userDao.findOneReadOnlyByEmail(userValidated.email)
+    return userDao.findOneReadOnlyByEmail(userValidated[propertyName])
         .then(function(user) {
             if (user !== null) {
                 var bimError = new BimError(
                     errors.user.email_already_exist.code,
-                    'email',
+                    propertyName,
                     errors.user.email_already_exist.message
                 );
                 bim.add(bimError);
@@ -58,7 +61,7 @@ var _emailAlreadyExist = function(userValidated, bim, schema) {
         }, function() {
             var bimError = new BimError(
                 errors.user.internal.code,
-                'email',
+                propertyName,
                 errors.user.internal.message
             );
             bim.add(bimError);
@@ -73,7 +76,7 @@ var _emailAlreadyExist = function(userValidated, bim, schema) {
  * Valid the values to record a new user
  *
  * @param {Object} value - User data to validate
- * @param {string} schemaName - if it is not specified, "default" will be used
+ * @param {string} schemaName
  * @returns {Promise}
  */
 var validateUser = function(value, schemaName) {
@@ -81,13 +84,17 @@ var validateUser = function(value, schemaName) {
     var promise = validate(value, schema);
 
     var promiseEmailAlreadyExist = function(resolved) {
-        return _emailAlreadyExist(resolved.value, resolved.bim, schema);
+        return _emailAlreadyExist(resolved.value, resolved.bim, schema, 'email');
     };
 
-    return promise.then(promiseEmailAlreadyExist, promiseEmailAlreadyExist);
+    if (schemaName === 'object') {
+        return promise.then(promiseEmailAlreadyExist, promiseEmailAlreadyExist);
+    } else {
+        return promise;
+    }
 };
 
 module.exports = {
-    _emailAlreadyExist:      _emailAlreadyExist,
+    _emailAlreadyExist:     _emailAlreadyExist,
     validate:               validateUser
 };
