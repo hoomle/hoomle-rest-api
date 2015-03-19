@@ -2,16 +2,22 @@
 
 var when                = require('when'),
     hoomleManager       = require('../manager').Hoomle,
-    homepageValidator   = require('../validator/homepage'),
+    hoomleValidator     = require('../validator').Hoomle,
+    homepageValidator   = require('../validator').Homepage,
     hoomleDao           = require('../manager/dao').Hoomle,
     errors              = require('../validator').Errors,
     NotFoundBim         = require('../bim/notFoundBim'),
     decorate            = require('../decorator').decorate,
     hoomleMask          = require('../decorator/mask').Hoomle,
-    hoomleHateoas       = require('../decorator/hateoas').Hoomle;
+    hoomleHateoas       = require('../decorator/hateoas').Hoomle,
+    _                   = require('lodash');
 
 /**
- * POST  /hoomle
+ * POST  /hoomle [?dryrun]
+ *
+ * dryrun mode valid the payload and return 204 if it is ok,
+ * else, it return the errors according the data sent.
+ * With this mode it is possible to valid partial data, for example, just the email.
  *
  * Request payload:
  *  {
@@ -26,20 +32,33 @@ var when                = require('when'),
  * @param {function} next
  */
 var create = function(req, res, next) {
-    hoomleManager
-        .create(req.body)
-        .then(function(resolved) {
-            var data = decorate(resolved.value, [
-                hoomleMask,
-                hoomleHateoas
-            ]);
-            res
-                .contentType('application/json')
-                .status(201)
-                .send(JSON.stringify(data));
-        }, function(err) {
-            next(err.bim);
-        });
+    if (_.has(req.query, 'dryrun')) {
+        hoomleValidator
+            .validate(req.body, 'creationDryrun')
+            .then(function() {
+                res
+                    .contentType('application/json')
+                    .status(204)
+                    .send();
+            }, function(err) {
+                next(err.bim);
+            });
+    } else {
+        hoomleManager
+            .create(req.body)
+            .then(function(resolved) {
+                var data = decorate(resolved.value, [
+                    hoomleMask,
+                    hoomleHateoas
+                ]);
+                res
+                    .contentType('application/json')
+                    .status(201)
+                    .send(JSON.stringify(data));
+            }, function(err) {
+                next(err.bim);
+            });
+    }
 };
 
 /**

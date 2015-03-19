@@ -9,6 +9,14 @@ var creationSchema = {
     slug:           joi.string().min(3).max(30).required()
 };
 
+var creationDryrunSchema = {
+    email:          joi.string().email(),
+    password:       joi.string().min(3).max(20),
+    displayName:    joi.string().min(3).max(30),
+    slug:           joi.string().min(3).max(30)
+};
+
 module.exports = {
-    creation: creationSchema
+    creation: creationSchema,
+    creationDryrun: creationDryrunSchema
 };

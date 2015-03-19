@@ -108,6 +108,41 @@ describe('Hoomle controller', function() {
                 });
         });
 
+        it('it is OK (dryrun)', function(done) {
+            request(app)
+                .post('/hoomle?dryrun')
+                .set('Content-Type', 'application/json')
+                .send({
+                    email: 'chuck.norris.two@god.cloud',
+                    password: '0000',
+                    displayName: 'Chuck Norris',
+                    slug: 'chucktwo'
+                })
+                .expect(204)
+                .end(function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                });
+        });
+
+        it('it is OK (dryrun) with partial data', function(done) {
+            request(app)
+                .post('/hoomle?dryrun')
+                .set('Content-Type', 'application/json')
+                .send({
+                    displayName: 'Chuck Norris'
+                })
+                .expect(204)
+                .end(function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                });
+        });
+
         it('Bad data', function(done) {
             request(app)
                 .post('/hoomle')
@@ -140,6 +175,35 @@ describe('Hoomle controller', function() {
                         .to.be.true();
 
                     expect(tools.hasError(errors, 'string.min', 'displayName'))
+                        .to.be.true();
+
+                    return done();
+                });
+        });
+
+        it('Bad data (dryrun) with partial data', function(done) {
+            request(app)
+                .post('/hoomle?dryrun')
+                .set('Content-Type', 'application/json')
+                .send({
+                    email: 'chuck.nowrisse'
+                })
+                .expect('Content-Type', /json/)
+                .expect(400)
+                .end(function(err, res) {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    expect(res.body)
+                        .to.contain.keys('errors');
+
+                    var errors = res.body.errors;
+
+                    expect(errors.length)
+                        .to.be.equals(1);
+
+                    expect(tools.hasError(errors, 'string.email', 'email'))
                         .to.be.true();
 
                     return done();
