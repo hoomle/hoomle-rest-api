@@ -1,10 +1,10 @@
 'use strict';
 
 var expect          = require('chai').expect,
-    hoomleHateoas   = require('../../../../src/decorator/hateoas').Hoomle;
+    hoomsHateoas    = require('../../../../src/decorator/hateoas').Hooms;
 
-describe('decorator / hateoas / hoomle', function() {
-    it('Add HATEOAS details to the hoomle object', function() {
+describe('decorator / hateoas / hooms', function() {
+    it('Add HATEOAS details to the hooms object', function() {
         var initialHoomle = {
             user: {
                 email: 'chuck@god.com',
@@ -20,13 +20,13 @@ describe('decorator / hateoas / hoomle', function() {
             }
         };
 
-        var hoomle = hoomleHateoas(initialHoomle);
+        var hooms = hoomsHateoas(initialHoomle);
 
-        expect(hoomle)
+        expect(hooms)
             .to.have.property('links')
                 .that.is.an('array');
 
-        var user = hoomle.links[0];
+        var user = hooms.links[0];
 
         expect(user)
             .to.have.property('rel')

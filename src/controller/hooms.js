@@ -1,19 +1,19 @@
 'use strict';
 
 var when                = require('when'),
-    hoomleManager       = require('../manager').Hoomle,
-    hoomleValidator     = require('../validator').Hoomle,
+    hoomsManager        = require('../manager').Hooms,
+    hoomsValidator      = require('../validator').Hooms,
     homepageValidator   = require('../validator').Homepage,
-    hoomleDao           = require('../manager/dao').Hoomle,
+    hoomsDao            = require('../manager/dao').Hooms,
     errors              = require('../validator').Errors,
     NotFoundBim         = require('../bim/notFoundBim'),
     decorate            = require('../decorator').decorate,
-    hoomleMask          = require('../decorator/mask').Hoomle,
-    hoomleHateoas       = require('../decorator/hateoas').Hoomle,
+    hoomsMask           = require('../decorator/mask').Hooms,
+    hoomsHateoas        = require('../decorator/hateoas').Hooms,
     _                   = require('lodash');
 
 /**
- * POST  /hoomle [?dryrun]
+ * POST  /hooms [?dryrun]
  *
  * dryrun mode valid the payload and return 204 if it is ok,
  * else, it return the errors according the data sent.
@@ -33,7 +33,7 @@ var when                = require('when'),
  */
 var create = function(req, res, next) {
     if (_.has(req.query, 'dryrun')) {
-        hoomleValidator
+        hoomsValidator
             .validate(req.body, 'creationDryrun')
             .then(function() {
                 res
@@ -44,12 +44,12 @@ var create = function(req, res, next) {
                 next(err.bim);
             });
     } else {
-        hoomleManager
+        hoomsManager
             .create(req.body)
             .then(function(resolved) {
                 var data = decorate(resolved.value, [
-                    hoomleMask,
-                    hoomleHateoas
+                    hoomsMask,
+                    hoomsHateoas
                 ]);
                 res
                     .contentType('application/json')
@@ -62,7 +62,7 @@ var create = function(req, res, next) {
 };
 
 /**
- * GET  /hoomle/:slug
+ * GET  /hooms/:slug
  *
  * Parameters:
  *  - slug | Respect the format of slug
@@ -74,21 +74,21 @@ var create = function(req, res, next) {
 var show = function(req, res, next) {
     homepageValidator.validate(req.params, 'paramRouteShow')
         .then(function(resolved) {
-            return hoomleDao.findOneReadOnlyBySlug(resolved.value.slug);
+            return hoomsDao.findOneReadOnlyBySlug(resolved.value.slug);
         })
         .then(function(data) {
             if (!data) {
                 return when.reject({
                     value: req.params,
                     bim: new NotFoundBim(
-                        errors.hoomle.not_found.code,
-                        errors.hoomle.not_found.message
+                        errors.hooms.not_found.code,
+                        errors.hooms.not_found.message
                     )
                 });
             }
             data = decorate(data, [
-                hoomleMask,
-                hoomleHateoas
+                hoomsMask,
+                hoomsHateoas
             ]);
             res
                 .contentType('application/json')

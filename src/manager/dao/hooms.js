@@ -5,7 +5,7 @@ var HomepageDao = require('./homepage'),
     when        = require('when');
 
 /**
- * Find hoomle by slug.
+ * Find hooms by slug.
  * The data return are Read Only (Plain Objet) instead of MongooseDocument
  *
  * @param {string} slug

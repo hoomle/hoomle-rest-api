@@ -2,13 +2,13 @@
 
 var expect          = require('chai').expect,
     sinon           = require('sinon'),
-    hoomleMask      = require('../../../../src/decorator/mask').Hoomle,
+    hoomsMask       = require('../../../../src/decorator/mask').Hooms,
     homepageMask    = require('../../../../src/decorator/mask').Homepage,
     userMask        = require('../../../../src/decorator/mask').User;
 
-describe('decorator / mask / hoomle', function() {
-    it('Mask data from hoomle object', function() {
-        var initialHoomle = {
+describe('decorator / mask / hooms', function() {
+    it('Mask data from hooms object', function() {
+        var initialHooms = {
             user: {
                 email: 'chuck@god.io',
                 password: '0000',
@@ -29,7 +29,7 @@ describe('decorator / mask / hoomle', function() {
         var homepageMaskSpy = sinon.spy(homepageMask);
         var userMaskSpy = sinon.spy(userMask);
 
-        hoomleMask(initialHoomle);
+        hoomsMask(initialHooms);
 
         expect(homepageMaskSpy).to.have.been.called;
         expect(userMaskSpy).to.have.been.called;

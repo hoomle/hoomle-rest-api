@@ -2,10 +2,10 @@
 
 var userDao         = require('./user'),
     homepageDao     = require('./homepage'),
-    hoomleDao       = require('./hoomle');
+    hoomsDao        = require('./hooms');
 
 module.exports = {
     User        : userDao,
     Homepage    : homepageDao,
-    Hoomle      : hoomleDao
+    Hooms       : hoomsDao
 };

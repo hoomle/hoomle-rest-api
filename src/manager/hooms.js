@@ -1,7 +1,7 @@
 'use strict';
 
 var when            = require('when'),
-    hoomleValidator = require('../validator').Hoomle,
+    hoomsValidator  = require('../validator').Hooms,
     errors          = require('../validator').Errors,
     userHelper      = require('../helper/user'),
     BimError        = require('../bim/bimError'),
@@ -9,12 +9,12 @@ var when            = require('when'),
     Homepage        = require('../model').Homepage;
 
 /**
- * Create an user
+ * Create an hooms (User & Homepage)
  *
  * @param {string} payload
  */
 var create = function(payload) {
-    return hoomleValidator
+    return hoomsValidator
         .validate(payload, 'creation')
         .then(function(resolved) {
             var newUser = {
@@ -39,9 +39,9 @@ var create = function(payload) {
                 });
             }).then(null, function(resolved) {
                 var bimError = new BimError(
-                    errors.hoomle.internal.code,
+                    errors.hooms.internal.code,
                     null,
-                    errors.hoomle.internal.message
+                    errors.hooms.internal.message
                 );
 
                 resolved.bim.add(bimError);

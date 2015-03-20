@@ -33,8 +33,8 @@ app.oauth = oauth2Server({
 });
 
 // Routes unlogged
-app.route('/hoomle').post(controller.Hoomle.create);
-app.route('/hoomle/:slug').get(controller.Hoomle.show);
+app.route('/hooms').post(controller.Hooms.create);
+app.route('/hooms/:slug').get(controller.Hooms.show);
 app.route('/users/:id').get(controller.User.show);
 
 // OAuth

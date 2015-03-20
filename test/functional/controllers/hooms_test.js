@@ -6,15 +6,15 @@ var request         = require('supertest'),
     app             = require('../mock.app.js'),
     loadFixtures    = require('../../fixtures.load');
 
-describe('Hoomle controller', function() {
+describe('Hooms controller', function() {
     before(function(done) {
         loadFixtures(done);
     });
 
-    describe('GET /hoomle/{id}', function() {
+    describe('GET /hooms/{id}', function() {
         it('it is OK', function(done) {
             request(app)
-                .get('/hoomle/stan')
+                .get('/hooms/stan')
                 .expect('Content-Type', /json/)
                 .expect(function(res) {
                     expect(res)
@@ -47,19 +47,19 @@ describe('Hoomle controller', function() {
                 .expect(200, done);
         });
 
-        it('Hoomle not found (404)', function(done) {
+        it('Hooms not found (404)', function(done) {
             request(app)
-                .get('/Hoomle/5478f34eb576b4a302000000')
+                .get('/hooms/5478f34eb576b4a302000000')
                 .set('Content-Type', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(404, done);
         });
     });
 
-    describe('POST /hoomle', function() {
+    describe('POST /hooms', function() {
         it('it is OK', function(done) {
             request(app)
-                .post('/hoomle')
+                .post('/hooms')
                 .set('Content-Type', 'application/json')
                 .send({
                     email: 'chuck.norris@god.cloud',
@@ -110,7 +110,7 @@ describe('Hoomle controller', function() {
 
         it('it is OK (dryrun)', function(done) {
             request(app)
-                .post('/hoomle?dryrun')
+                .post('/hooms?dryrun')
                 .set('Content-Type', 'application/json')
                 .send({
                     email: 'chuck.norris.two@god.cloud',
@@ -129,7 +129,7 @@ describe('Hoomle controller', function() {
 
         it('it is OK (dryrun) with partial data', function(done) {
             request(app)
-                .post('/hoomle?dryrun')
+                .post('/hooms?dryrun')
                 .set('Content-Type', 'application/json')
                 .send({
                     displayName: 'Chuck Norris'
@@ -145,7 +145,7 @@ describe('Hoomle controller', function() {
 
         it('Bad data', function(done) {
             request(app)
-                .post('/hoomle')
+                .post('/hooms')
                 .set('Content-Type', 'application/json')
                 .send({
                     slug: 's',
@@ -183,7 +183,7 @@ describe('Hoomle controller', function() {
 
         it('Bad data (dryrun) with partial data', function(done) {
             request(app)
-                .post('/hoomle?dryrun')
+                .post('/hooms?dryrun')
                 .set('Content-Type', 'application/json')
                 .send({
                     email: 'chuck.nowrisse'

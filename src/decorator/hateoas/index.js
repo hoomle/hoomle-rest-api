@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-    User        : require('./user'),
-    Hoomle      : require('./hoomle')
+    User    : require('./user'),
+    Hooms   : require('./hooms')
 };

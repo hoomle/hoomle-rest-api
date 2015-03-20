@@ -24,9 +24,9 @@ module.exports = {
         not_found:              {code: 'homepage.not_found', message: 'homepage not found'},
         internal:               {code: 'homepage.internal', message: 'homepage internal error'}
     },
-    hoomle: {
-        not_found:              {code: 'hoomle.not_found', message: 'hoomle not found'},
-        internal:               {code: 'hoomle.internal', message: 'hoomle internal error'}
+    hooms: {
+        not_found:              {code: 'hooms.not_found', message: 'hooms not found'},
+        internal:               {code: 'hooms.internal', message: 'hooms internal error'}
     }
 };
 /* jshint ignore:end */

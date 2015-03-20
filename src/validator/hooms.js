@@ -12,8 +12,8 @@ var validate            = require('./joi/validate'),
  * @param {string} schemaName
  * @returns {Promise}
  */
-var validateHoomle = function(value, schemaName) {
-    var schema = joiSchema.getSchema('hoomle', schemaName);
+var validateHooms = function(value, schemaName) {
+    var schema = joiSchema.getSchema('hooms', schemaName);
     var promise = validate(value, schema);
 
     var promiseEmailAlreadyExist = function(resolved) {
@@ -30,5 +30,5 @@ var validateHoomle = function(value, schemaName) {
 };
 
 module.exports = {
-    validate: validateHoomle
+    validate: validateHooms
 };
