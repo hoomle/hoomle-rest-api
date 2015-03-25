@@ -224,4 +224,122 @@ describe('validator / helpers / photoFile', function() {
                 });
         });
     });
+
+    describe('validator / helpers / photoFile / maxSize()', function() {
+        it('should valid the width and the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.maxSize(filepath, 700, 700)
+                .then(function(resolved) {
+                    expect(filepath)
+                        .to.be.equals(resolved);
+
+                    done();
+                });
+        });
+
+        it('should not valid the width but valid the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.maxSize(filepath, 600, 700)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_high');
+
+                    done();
+                });
+        });
+
+        it('should valid the width but not valid the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.maxSize(filepath, 700, 600)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_high');
+
+                    done();
+                });
+        });
+
+        it('should not valid the width (file is not an image)', function(done) {
+            var filepath = __dirname + '/fixtures/not_an_image.jpg';
+
+            photoFileHelpers.maxSize(filepath, 700, 700)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_high');
+
+                    done();
+                });
+        });
+    });
+
+    describe('validator / helpers / photoFile / minSize()', function() {
+        it('should valid the width and the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.minSize(filepath, 600, 600)
+                .then(function(resolved) {
+                    expect(filepath)
+                        .to.be.equals(resolved);
+
+                    done();
+                });
+        });
+
+        it('should not valid the width but valid the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.minSize(filepath, 700, 600)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_low');
+
+                    done();
+                });
+        });
+
+        it('should valid the width but not valid the height', function(done) {
+            var filepath = __dirname + '/fixtures/discover-682x626.jpg';
+
+            photoFileHelpers.minSize(filepath, 600, 700)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_low');
+
+                    done();
+                });
+        });
+
+        it('should not valid the width (file is not an image)', function(done) {
+            var filepath = __dirname + '/fixtures/not_an_image.jpg';
+
+            photoFileHelpers.minSize(filepath, 700, 700)
+                .then(null, function(err) {
+                    expect(err.filepath)
+                        .to.be.equals(filepath);
+
+                    expect(err.code)
+                        .to.be.equals('size.too_low');
+
+                    done();
+                });
+        });
+    });
 });

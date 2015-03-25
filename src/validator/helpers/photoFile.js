@@ -5,7 +5,6 @@ var gm      = require('gm'),
     _       = require('lodash'),
     when    = require('when');
 
-
 var format = function(filepath, formats) {
     return when.promise(function(resolve, reject) {
         var formatsExpected = [];
@@ -88,10 +87,42 @@ var minHeight = function(filepath, limit) {
     });
 };
 
+var maxSize = function(filepath, limitWidth, limitHeight) {
+    return when.promise(function(resolve, reject) {
+        gm(filepath).size(function(err, size) {
+            if (err || size.width > limitWidth || size.height > limitHeight) {
+                return reject({
+                    filepath: filepath,
+                    code: 'size.too_high'
+                });
+            }
+
+            return resolve(filepath);
+        });
+    });
+};
+
+var minSize = function(filepath, limitWidth, limitHeight) {
+    return when.promise(function(resolve, reject) {
+        gm(filepath).size(function(err, size) {
+            if (err || size.width < limitWidth || size.height < limitHeight) {
+                return reject({
+                    filepath: filepath,
+                    code: 'size.too_low'
+                });
+            }
+
+            return resolve(filepath);
+        });
+    });
+};
+
 module.exports = {
     format: format,
     maxWidth: maxWidth,
     maxHeight: maxHeight,
     minWidth: minWidth,
     minHeight: minHeight,
+    maxSize: maxSize,
+    minSize: minSize
 };
