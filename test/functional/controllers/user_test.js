@@ -6,13 +6,13 @@ var request         = require('supertest'),
     app             = require('../mock.app.js'),
     loadFixtures    = require('../../fixtures.load');
 
-describe('Users controller controller', function() {
+describe('Users controller', function() {
     before(function(done) {
         loadFixtures(done);
     });
 
     describe('GET /users/{id}', function() {
-        it('it is OK', function(done) {
+        it('should return the user', function(done) {
             request(app)
                 .get('/users/5478f34eb576b4a30295d914')
                 .expect('Content-Type', /json/)
@@ -38,7 +38,7 @@ describe('Users controller controller', function() {
                 .expect(200, done);
         });
 
-        it('Bad format of ID (400)', function(done) {
+        it('should return a bad response because its ID format is invalid', function(done) {
             request(app)
                 .get('/users/1234532')
                 .set('Content-Type', 'application/json')
@@ -46,7 +46,7 @@ describe('Users controller controller', function() {
                 .expect(400, done);
         });
 
-        it('User not found (404)', function(done) {
+        it('should return a "not found" response (404)', function(done) {
             request(app)
                 .get('/users/5478f34eb576b4a302000000')
                 .set('Content-Type', 'application/json')

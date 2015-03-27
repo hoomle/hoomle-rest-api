@@ -27,6 +27,14 @@ module.exports = {
     hooms: {
         not_found:              {code: 'hooms.not_found', message: 'hooms not found'},
         internal:               {code: 'hooms.internal', message: 'hooms internal error'}
+    },
+    file: {
+        photo: {
+            invalid_format: {code: 'photo.invalid_format', message: 'The image format provided is not supported'},
+            image_size_too_small: {code: 'photo.image_size_too_small', message: 'The image size is too small.'},
+            image_size_too_big: {code: 'photo.image_size_too_big', message: 'The image size is too big.'},
+            size_too_big: {code: 'photo.size_too_big', message: 'The file is too large.'}
+        }
     }
 };
 /* jshint ignore:end */

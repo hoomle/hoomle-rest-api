@@ -4,7 +4,7 @@ var expect          = require('chai').expect,
     homepageMask    = require('../../../../src/decorator/mask').Homepage;
 
 describe('decorator / mask / homepage', function() {
-    it('Mask data from homepage object', function() {
+    it('should mask data from homepage object', function() {
         var initialHomepage = {
             _id         : '534da334b9f6c07517f6cbb9',
             slug        : 'stan',

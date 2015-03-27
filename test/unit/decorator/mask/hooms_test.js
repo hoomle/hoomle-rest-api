@@ -7,7 +7,7 @@ var expect          = require('chai').expect,
     userMask        = require('../../../../src/decorator/mask').User;
 
 describe('decorator / mask / hooms', function() {
-    it('Mask data from hooms object', function() {
+    it('should mask data from hooms object', function() {
         var initialHooms = {
             user: {
                 email: 'chuck@god.io',

@@ -4,7 +4,7 @@ var expect          = require('chai').expect,
     hoomsHateoas    = require('../../../../src/decorator/hateoas').Hooms;
 
 describe('decorator / hateoas / hooms', function() {
-    it('Add HATEOAS details to the hooms object', function() {
+    it('should add HATEOAS details to the hooms object', function() {
         var initialHoomle = {
             user: {
                 email: 'chuck@god.com',

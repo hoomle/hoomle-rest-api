@@ -6,7 +6,7 @@ var expect          = require('chai').expect,
     BimError        = require('../../../../../src/bim/bimError');
 
 describe('bim / adapter / joi / bimAdapter', function() {
-    it('adapt joi error with errors', function() {
+    it('should adapt joi error with errors', function() {
         var joiErrors = {
             details: [
                 {
@@ -33,7 +33,7 @@ describe('bim / adapter / joi / bimAdapter', function() {
             .to.be.an.instanceOf(BimError);
     });
 
-    it('bad joi error', function() {
+    it('should wrap the error of joi into a Bim object', function() {
         var joiErrors = {};
         var bim = bimAdapter(joiErrors);
 

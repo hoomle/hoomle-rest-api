@@ -11,8 +11,8 @@ describe('Hooms controller', function() {
         loadFixtures(done);
     });
 
-    describe('GET /hooms/{id}', function() {
-        it('it is OK', function(done) {
+    describe('GET /hooms/{slug}', function() {
+        it('should return the hooms object', function(done) {
             request(app)
                 .get('/hooms/stan')
                 .expect('Content-Type', /json/)
@@ -47,7 +47,7 @@ describe('Hooms controller', function() {
                 .expect(200, done);
         });
 
-        it('Hooms not found (404)', function(done) {
+        it('should return a "not found" response (404)', function(done) {
             request(app)
                 .get('/hooms/5478f34eb576b4a302000000')
                 .set('Content-Type', 'application/json')
@@ -57,7 +57,7 @@ describe('Hooms controller', function() {
     });
 
     describe('POST /hooms', function() {
-        it('it is OK', function(done) {
+        it('should return the hooms previously created', function(done) {
             request(app)
                 .post('/hooms')
                 .set('Content-Type', 'application/json')
@@ -108,42 +108,7 @@ describe('Hooms controller', function() {
                 });
         });
 
-        it('it is OK (dryrun)', function(done) {
-            request(app)
-                .post('/hooms?dryrun')
-                .set('Content-Type', 'application/json')
-                .send({
-                    email: 'chuck.norris.two@god.cloud',
-                    password: '0000',
-                    displayName: 'Chuck Norris',
-                    slug: 'chucktwo'
-                })
-                .expect(204)
-                .end(function(err) {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
-        });
-
-        it('it is OK (dryrun) with partial data', function(done) {
-            request(app)
-                .post('/hooms?dryrun')
-                .set('Content-Type', 'application/json')
-                .send({
-                    displayName: 'Chuck Norris'
-                })
-                .expect(204)
-                .end(function(err) {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done();
-                });
-        });
-
-        it('Bad data', function(done) {
+        it('should return an error because the data are invalid', function(done) {
             request(app)
                 .post('/hooms')
                 .set('Content-Type', 'application/json')
@@ -180,8 +145,45 @@ describe('Hooms controller', function() {
                     return done();
                 });
         });
+    });
 
-        it('Bad data (dryrun) with partial data', function(done) {
+    describe('POST /hooms (dryrun)', function() {
+        it('should return a success reponse (object is ready to be created)', function(done) {
+            request(app)
+                .post('/hooms?dryrun')
+                .set('Content-Type', 'application/json')
+                .send({
+                    email: 'chuck.norris.two@god.cloud',
+                    password: '0000',
+                    displayName: 'Chuck Norris',
+                    slug: 'chucktwo'
+                })
+                .expect(204)
+                .end(function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                });
+        });
+
+        it('should return a success reponse (the partial data have been validated)', function(done) {
+            request(app)
+                .post('/hooms?dryrun')
+                .set('Content-Type', 'application/json')
+                .send({
+                    displayName: 'Chuck Norris'
+                })
+                .expect(204)
+                .end(function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    return done();
+                });
+        });
+
+        it('should return an error because the partial data are not valid', function(done) {
             request(app)
                 .post('/hooms?dryrun')
                 .set('Content-Type', 'application/json')

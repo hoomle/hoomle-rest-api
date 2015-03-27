@@ -4,7 +4,7 @@ var expect          = require('chai').expect,
     userHateoas     = require('../../../../src/decorator/hateoas').User;
 
 describe('decorator / hateoas / user', function() {
-    it('Add HATEOAS details to the user object', function() {
+    it('should Add HATEOAS details to the user object', function() {
         var initialUser = {
             _id         : '534da334b9f6c07517f6cbb9',
             email       : 'chuck.norris@god.com'

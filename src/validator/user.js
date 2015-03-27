@@ -20,7 +20,8 @@ var when            = require('when'),
  * @returns {Promise}
  */
 var _emailAlreadyExist = function(userValidated, bim, schema, propertyName) {
-    if (bim.hasErrorWithPath(propertyName) || _.isEmpty(userValidated[propertyName]) || !_.has(schema, propertyName)) {
+    if (bim.hasErrorWithPath(propertyName) || !_.isObject(userValidated) || _.isEmpty(userValidated[propertyName]) ||
+        !_.has(schema, propertyName)) {
         var resolved = {
             value: userValidated,
             bim: bim
@@ -41,10 +42,6 @@ var _emailAlreadyExist = function(userValidated, bim, schema, propertyName) {
                     errors.user.email_already_exist.message
                 );
                 bim.add(bimError);
-                return when.reject({
-                    value: userValidated,
-                    bim: bim
-                });
             }
 
             if (bim.isValid()) {

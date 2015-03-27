@@ -3,8 +3,8 @@
 var expect          = require('chai').expect,
     arrayHelper     = require('../../../src/helper/array');
 
-describe('helper / array', function() {
-    it('pushToPropertyUnknow() - Push object to property (array) of an object', function() {
+describe('helper / array / pushToPropertyUnknow()', function() {
+    it('should push object to property (array) of an object', function() {
         var testObject = {};
 
         expect(testObject)

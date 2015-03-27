@@ -12,7 +12,7 @@ describe('Access token controller', function() {
     });
 
     describe('POST /oauth/access_token', function() {
-        it('it is OK', function(done) {
+        it('should return the token', function(done) {
             request(app)
                 .post('/oauth/access_token')
                 .set('Content-Type', 'application/x-www-form-urlencoded')
@@ -40,7 +40,7 @@ describe('Access token controller', function() {
                 });
         });
 
-        it('Bad credentials', function(done) {
+        it('should return a "Bad credentials" error', function(done) {
             request(app)
                 .post('/oauth/access_token')
                 .set('Content-Type', 'application/x-www-form-urlencoded')

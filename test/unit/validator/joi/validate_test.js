@@ -6,8 +6,8 @@ var joi             = require('joi'),
     BimError        = require('../../../../src/bim/bimError'),
     validate        = require('../../../../src/validator/joi/validate');
 
-describe('validator / joi / validate', function() {
-    it('invalid value', function(done) {
+describe('validator / joi / validate()', function() {
+    it('should not validate the value', function(done) {
         var schema = {
             username: joi.string().alphanum().min(3).max(30).required()
         };
@@ -40,7 +40,7 @@ describe('validator / joi / validate', function() {
             });
     });
 
-    it('valid value', function(done) {
+    it('should valid the value', function(done) {
         var schema = {
             username: joi.string().alphanum().min(3).max(30).required()
         };

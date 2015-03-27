@@ -3,8 +3,8 @@
 var expect          = require('chai').expect,
     decorator       = require('../../../src/decorator');
 
-describe('decorator / index', function() {
-    it('decorate() with no decorators', function() {
+describe('decorator / index / decorate()', function() {
+    it('should "decore" an object with no decorators (nothing are done)', function() {
         var user = {
             _id         : '534da334b9f6c07517f6cbb9',
             email       : 'chuck.norris@god.com'
@@ -16,7 +16,7 @@ describe('decorator / index', function() {
             .to.be.deep.equals(userDecorate);
     });
 
-    it('decorate() with empty list of decorators', function() {
+    it('should "decore" an object with empty list of decorators (nothing are done)', function() {
         var user = {
             _id         : '534da334b9f6c07517f6cbb9',
             email       : 'chuck.norris@god.com'
@@ -28,7 +28,7 @@ describe('decorator / index', function() {
             .to.be.deep.equals(userDecorate);
     });
 
-    it('decorate() with simple decorator', function() {
+    it('should "decore" an object (add property "firstName" with "chuck" as value)', function() {
         var initialUser = {
             _id         : '534da334b9f6c07517f6cbb9',
             email       : 'chuck.norris@god.com'
