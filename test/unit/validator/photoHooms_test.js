@@ -12,7 +12,7 @@ var sinon               = require('sinon'),
     photoManager        = require('../../../src/helper/photoManager'),
     tools               = require('../../tools');
 
-describe('validator / photoHooms / validate()', function() {
+describe('validator / photoHooms / validate', function() {
     var photoManagerStub;
 
     before(function() {

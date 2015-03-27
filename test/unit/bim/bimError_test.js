@@ -3,8 +3,8 @@
 var expect          = require('chai').expect,
     BimError        = require('../../../src/bim/bimError');
 
-describe('bim / BimError', function() {
-    it('constructor', function() {
+describe('bim / BimError / constructor', function() {
+    it('should construct a classic BimError object', function() {
         var bimError = new BimError();
 
         expect(bimError)
@@ -20,7 +20,7 @@ describe('bim / BimError', function() {
             .to.be.null;
     });
 
-    it('constructor with value passed as parameters', function() {
+    it('should construct a BimError object with value passed as parameters', function() {
         var bimError = new BimError(
             'code',
             'path',
@@ -40,7 +40,7 @@ describe('bim / BimError', function() {
             .to.be.equals('message');
     });
 
-    it('isBim', function() {
+    it('should test the default value of "isBim" property', function() {
         var bimError = new BimError();
         expect(bimError.isBim).to.be.true();
     });

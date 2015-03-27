@@ -5,7 +5,7 @@ var photoFileHelpers    = require('../../../../src/validator/helpers/photoFile')
     sinon               = require('sinon');
 
 describe('validator / helpers / photoFile', function() {
-    describe('validator / helpers / photoFile / isImage()', function() {
+    describe('validator / helpers / photoFile / isImage', function() {
         it('should valid', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -55,7 +55,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / format()', function() {
+    describe('validator / helpers / photoFile / format', function() {
         it('should valid the format', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -123,7 +123,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / maxWidth()', function() {
+    describe('validator / helpers / photoFile / maxWidth', function() {
         it('should valid the width', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -173,7 +173,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / maxHeight()', function() {
+    describe('validator / helpers / photoFile / maxHeight', function() {
         it('should valid the height', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -223,7 +223,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / minHeight()', function() {
+    describe('validator / helpers / photoFile / minHeight', function() {
         it('should valid the height', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -273,7 +273,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / minWidth()', function() {
+    describe('validator / helpers / photoFile / minWidth', function() {
         it('should valid the width', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -323,7 +323,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / maxImageSize()', function() {
+    describe('validator / helpers / photoFile / maxImageSize', function() {
         it('should valid the width and the height', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -391,7 +391,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / minImageSize()', function() {
+    describe('validator / helpers / photoFile / minImageSize', function() {
         it('should valid the width and the height', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 
@@ -459,7 +459,7 @@ describe('validator / helpers / photoFile', function() {
         });
     });
 
-    describe('validator / helpers / photoFile / maxSize()', function() {
+    describe('validator / helpers / photoFile / maxSize', function() {
         it('should valid the size (< 120B)', function(done) {
             var filepath = __dirname + '/fixtures/discover-682x626.jpg';
 

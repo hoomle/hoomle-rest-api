@@ -10,7 +10,7 @@ var Bim                 = require('../../../src/bim/bim'),
     BimError            = require('../../../src/bim/bimError'),
     when                = require('when');
 
-describe('validator / homepage / _slugAlreadyExist()', function() {
+describe('validator / homepage / _slugAlreadyExist', function() {
     it('should check if the slug does not exist', function(done) {
         var homepage = {slug: 'unused_slug'};
         var bim = new Bim();
@@ -84,7 +84,7 @@ describe('validator / homepage / _slugAlreadyExist()', function() {
     });
 });
 
-describe('validator / homepage / validate()', function() {
+describe('validator / homepage / validate', function() {
     it('should validate the values', function(done) {
         var homepage = {
             slug            : 'unused_name',

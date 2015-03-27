@@ -10,7 +10,7 @@ var sinon           = require('sinon'),
     userDao         = require('../../../src/manager/dao').User,
     tools           = require('../../tools');
 
-describe('validator / user / _emailAlreadyExist()', function() {
+describe('validator / user / _emailAlreadyExist', function() {
     it('should validate because the email does not exist', function(done) {
         var user = {email: 'unused_mail@provider.local'};
         var bim = new Bim();
@@ -80,7 +80,7 @@ describe('validator / user / _emailAlreadyExist()', function() {
     });
 });
 
-describe('validator / user / validate()', function() {
+describe('validator / user / validate', function() {
     it('should validate because the email does not exist', function(done) {
         var user = {
             email:          'unused_mail@provider.local',

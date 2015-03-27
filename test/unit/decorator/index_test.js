@@ -3,7 +3,7 @@
 var expect          = require('chai').expect,
     decorator       = require('../../../src/decorator');
 
-describe('decorator / index / decorate()', function() {
+describe('decorator / index / decorate', function() {
     it('should "decore" an object with no decorators (nothing are done)', function() {
         var user = {
             _id         : '534da334b9f6c07517f6cbb9',

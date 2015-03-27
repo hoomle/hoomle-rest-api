@@ -3,7 +3,7 @@
 var expect          = require('chai').expect,
     objectHelper    = require('../../../src/helper/object');
 
-describe('helper / object / removeProperties()', function() {
+describe('helper / object / removeProperties', function() {
     it('should remove properties from an object', function() {
         var testObject = {
             property1: 'value',
@@ -40,7 +40,7 @@ describe('helper / object / removeProperties()', function() {
     });
 });
 
-describe('helper / object / areEqual()', function() {
+describe('helper / object / areEqual', function() {
     it('should validate if 2 object are equal', function() {
         expect(objectHelper.areEqual(
             {prop1: 'value1', prop2: 'value2'},

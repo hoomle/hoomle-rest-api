@@ -5,7 +5,7 @@ var bimErrorAdapter = require('../../../../../src/bim/adapters/joi/bimErrorAdapt
     expect          = require('chai').expect;
 
 describe('bim / adapter / joi / bimErrorAdapter', function() {
-    it('error without message', function() {
+    it('should map an error without message', function() {
         var joiError = {
             path: 'username',
             type: 'string.length'
@@ -25,7 +25,7 @@ describe('bim / adapter / joi / bimErrorAdapter', function() {
             .to.be.equals(null);
     });
 
-    it('error with message', function() {
+    it('should map an error with message', function() {
         var joiError = {
             path: 'username',
             type: 'string.length',
@@ -46,7 +46,7 @@ describe('bim / adapter / joi / bimErrorAdapter', function() {
             .to.be.equals(joiError.message);
     });
 
-    it('bad joi object', function() {
+    it('should not map anything because the joi object error are invalid', function() {
         var joiError = {
             path: 'username'
         };
