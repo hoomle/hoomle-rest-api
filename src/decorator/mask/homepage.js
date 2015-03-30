@@ -8,7 +8,8 @@ var objectHelper = require('../../helper/object');
  */
 function mask(homepage) {
     return objectHelper.removeProperties([
-        '__v'
+        '__v',
+        'updatedAt'
     ], homepage);
 }
 

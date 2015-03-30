@@ -8,6 +8,7 @@ var express             = require('express'),
     configuration       = require('./configuration'),
     controller          = require('../controller'),
     oauthManager        = require('../manager/oauth'),
+    multer              = require('multer'),
     app                 = express();
 
 app.set('port', configuration.port);
@@ -16,6 +17,12 @@ if (configuration.env !== 'test') {
 }
 app.use(bodyParser());
 app.use(methodOverride());
+app.use(multer({
+    dest: configuration.uploadAbsPath + '/',
+    limits: {
+        fieldSize: 8000000
+    }
+}));
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -41,11 +48,11 @@ app.route('/users/:id').get(controller.User.show);
 app.all('/oauth/access_token', app.oauth.grant());
 
 // OAuth firewall
-// app.all('/*', app.oauth.authorise());
-// app.all('/*', require('../middleware/loadUser'));
+app.all('/*', app.oauth.authorise());
+app.all('/*', require('../middleware/loadUser'));
 
 // Routes logged
-// app.route('/homepage').post(controller.Homepage.create);
+app.route('/hooms/:slug/photos/profile').put(controller.Hooms.updatePhotoProfile);
 
 // Default errors handler
 app.use(controller.Default.errorHandler);

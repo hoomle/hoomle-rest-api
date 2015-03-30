@@ -4,6 +4,7 @@
 module.exports = {
     global: {
         internal:               {code:'internal', message: 'internal error'},
+        forbidden:              {code:'forbidden', message: 'access denied'},
         not_found:              {code:'not_found', message: 'content not found'}
     },
     users: {
@@ -26,7 +27,8 @@ module.exports = {
     },
     hooms: {
         not_found:              {code: 'hooms.not_found', message: 'hooms not found'},
-        internal:               {code: 'hooms.internal', message: 'hooms internal error'}
+        internal:               {code: 'hooms.internal', message: 'hooms internal error'},
+        not_owner:              {code: 'hooms.not_owner', message: 'You are not the owner of this hooms'}
     },
     file: {
         photo: {

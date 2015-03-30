@@ -1,16 +1,20 @@
 'use strict';
 
-var when                = require('when'),
-    hoomsManager        = require('../manager').Hooms,
-    hoomsValidator      = require('../validator').Hooms,
-    homepageValidator   = require('../validator').Homepage,
-    hoomsDao            = require('../manager/dao').Hooms,
-    errors              = require('../validator').Errors,
-    NotFoundBim         = require('../bim/notFoundBim'),
-    decorate            = require('../decorator').decorate,
-    hoomsMask           = require('../decorator/mask').Hooms,
-    hoomsHateoas        = require('../decorator/hateoas').Hooms,
-    _                   = require('lodash');
+var when                        = require('when'),
+    hoomsManager                = require('../manager').Hooms,
+    homepageValidator           = require('../validator').Homepage,
+    photoHoomsValidator         = require('../validator').PhotoHooms,
+    photoManager                = require('../helper/photoManager'),
+    hoomsValidator              = require('../validator').Hooms,
+    hoomsDao                    = require('../manager/dao').Hooms,
+    homepageManager             = require('../manager').Homepage,
+    errors                      = require('../validator').Errors,
+    NotFoundBim                 = require('../bim/notFoundBim'),
+    ForbiddenBim                = require('../bim/forbiddenBim'),
+    decorate                    = require('../decorator').decorate,
+    hoomsMask                   = require('../decorator/mask').Hooms,
+    hoomsHateoas                = require('../decorator/hateoas').Hooms,
+    _                           = require('lodash');
 
 /**
  * POST  /hooms [?dryrun]
@@ -98,7 +102,53 @@ var show = function(req, res, next) {
         });
 };
 
+/**
+ * PUT  /hooms/:slug/photos/profile
+ *
+ * Parameters:
+ *  - slug
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {function} next
+ */
+var updatePhotoProfile = function(req, res, next) {
+    homepageValidator.validate(req.params, 'paramRouteShow')
+        .then(function() {
+            return homepageManager.findOneReadOnlyBySlugAndUser(req.params.slug, req.user._id);
+        })
+        .then(function(homepage) {
+            if (!homepage) {
+                var bim = new ForbiddenBim(
+                    errors.hooms.not_owner.code,
+                    errors.hooms.not_owner.message
+                );
+
+                return when.reject({
+                    value: null,
+                    bim: bim
+                });
+            }
+
+            return photoHoomsValidator.validate(req.files.photo || null, 'profile');
+        })
+        .then(function(resolved) {
+            return photoManager.savePhotoFromUpload(resolved.value.name);
+        }).then(function(filename) {
+            console.log('new filename: ' + filename);
+            return homepageManager.updatePhotoProfile(filename, req.params.slug, req.user._id);
+        }).then(function(homepage) {
+            res.redirect(
+                303,
+                req.protocol + '://' + req.get('host') + '/hooms/' + homepage.slug
+            );
+        }).then(null, function(err) {
+            next(err.bim);
+        });
+};
+
 module.exports = {
     create: create,
-    show: show
+    show: show,
+    updatePhotoProfile: updatePhotoProfile
 };

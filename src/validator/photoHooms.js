@@ -210,7 +210,7 @@ var validatePhotoHooms = function(value, schemaName) {
     };
 
     var promiseMaxSize = function(resolved) {
-        return _maxSize(resolved.value, resolved.bim, schema, 'name', 2000000);
+        return _maxSize(resolved.value, resolved.bim, schema, 'name', 8000000);
     };
 
     var remapError = function(newPath) {

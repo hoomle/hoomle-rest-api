@@ -82,9 +82,55 @@ var findOneReadOnlyBySlug = function(slug, select) {
     return query.exec();
 };
 
+/**
+ * Find homepage by its slug and owner.
+ * The data return are Read Only (Plain Objet) instead of MongooseDocument
+ *
+ * @param {string} slug
+ * @param {string} userId
+ * @return {Object}
+ */
+var findOneReadOnlyBySlugAndUser = function(slug, userId, select) {
+    var query = Homepage
+        .findOne({
+            slug: slug,
+            owner: new ObjectId(userId)
+        })
+        .lean(true);
+
+    if (select) {
+        query.select(select);
+    }
+
+    return query.exec();
+};
+
+/**
+ * Find homepage by its slug and owner.
+ *
+ * @param {string} slug
+ * @param {string} userId
+ * @return {MongooseDocument}
+ */
+var findOneBySlugAndUser = function(slug, userId, select) {
+    var query = Homepage
+        .findOne({
+            slug: slug,
+            owner: new ObjectId(userId)
+        });
+
+    if (select) {
+        query.select(select);
+    }
+
+    return query.exec();
+};
+
 module.exports = {
     findOneById: findOneById,
     findOneReadOnlyById: findOneReadOnlyById,
     findReadOnlyByIds: findReadOnlyByIds,
-    findOneReadOnlyBySlug: findOneReadOnlyBySlug
+    findOneReadOnlyBySlug: findOneReadOnlyBySlug,
+    findOneReadOnlyBySlugAndUser: findOneReadOnlyBySlugAndUser,
+    findOneBySlugAndUser: findOneBySlugAndUser
 };
