@@ -11,7 +11,22 @@ var express             = require('express'),
     multer              = require('multer'),
     app                 = express();
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+        res.send(200);
+    }
+    else {
+        next();
+    }
+};
+
 app.set('port', configuration.port);
+app.use(allowCrossDomain);
 if (configuration.env !== 'test') {
     app.use(morgan(configuration.env));
 }
@@ -24,11 +39,13 @@ app.use(multer({
     }
 }));
 
+/*
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
+*/
 
 // OAuth configuration
 app.oauth = oauth2Server({
@@ -53,6 +70,7 @@ app.all('/*', require('../middleware/loadUser'));
 
 // Routes logged
 app.route('/hooms/:slug/photos/profile').put(controller.Hooms.updatePhotoProfile);
+app.route('/me/hooms').get(controller.Hooms.me);
 
 // Default errors handler
 app.use(controller.Default.errorHandler);

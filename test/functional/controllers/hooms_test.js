@@ -26,15 +26,13 @@ describe('Hooms controller', function() {
                             user: {
                                 _id: '5478f34eb576b4a30295d914',
                                 email: 'stanislas.chollet@gmail.com',
-                                displayName: 'Stan Chollet',
-                                createdAt: '2014-11-28T22:12:30.182Z'
+                                displayName: 'Stan Chollet'
                             },
                             homepage: {
                                 _id: '5478f34eb576b4a30295d432',
                                 slug: 'stan',
                                 bio: 'Passionnate about travel, software development and sport.',
-                                owner: '5478f34eb576b4a30295d914',
-                                createdAt: '2014-11-28T22:12:30.182Z'
+                                owner: '5478f34eb576b4a30295d914'
                             },
                             links: [
                                 {
@@ -78,10 +76,10 @@ describe('Hooms controller', function() {
                         .to.contain.keys('user', 'homepage', 'links');
 
                     expect(res.body.homepage)
-                        .to.contain.keys('_id', 'slug', 'createdAt', 'createdAt');
+                        .to.contain.keys('_id', 'slug', 'owner');
 
                     expect(res.body.user)
-                        .to.contain.keys('_id', 'email', 'displayName', 'createdAt');
+                        .to.contain.keys('_id', 'email', 'displayName');
 
                     expect(res.body.links[0])
                         .to.contain.keys('rel', 'href');

@@ -14,6 +14,7 @@ var when                        = require('when'),
     decorate                    = require('../decorator').decorate,
     hoomsMask                   = require('../decorator/mask').Hooms,
     hoomsHateoas                = require('../decorator/hateoas').Hooms,
+    hoomsStatic                 = require('../decorator/static').Hooms,
     _                           = require('lodash');
 
 /**
@@ -92,7 +93,8 @@ var show = function(req, res, next) {
             }
             data = decorate(data, [
                 hoomsMask,
-                hoomsHateoas
+                hoomsHateoas,
+                hoomsStatic
             ]);
             res
                 .contentType('application/json')
@@ -135,7 +137,6 @@ var updatePhotoProfile = function(req, res, next) {
         .then(function(resolved) {
             return photoManager.savePhotoFromUpload(resolved.value.name);
         }).then(function(filename) {
-            console.log('new filename: ' + filename);
             return homepageManager.updatePhotoProfile(filename, req.params.slug, req.user._id);
         }).then(function(homepage) {
             res.redirect(
@@ -147,8 +148,47 @@ var updatePhotoProfile = function(req, res, next) {
         });
 };
 
+/**
+ * GET  /me/hooms
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {function} next
+ */
+var me = function(req, res, next) {
+    homepageManager.findByUser(req.user._id)
+        .then(function(homepages) {
+            if (!homepages || !_.isArray(homepages) || homepages.length <= 0) {
+                return when.reject({
+                    value: req.params,
+                    bim: new NotFoundBim(
+                        errors.hooms.not_found.code,
+                        errors.hooms.not_found.message
+                    )
+                });
+            }
+
+            var homepage = {
+                user: req.user,
+                homepage: homepages[0]
+            };
+
+            homepage = decorate(homepage, [
+                hoomsMask,
+                hoomsHateoas,
+                hoomsStatic
+            ]);
+            res
+                .contentType('application/json')
+                .send(JSON.stringify(homepage));
+        }).then(null, function(err) {
+            next(err.bim);
+        });
+};
+
 module.exports = {
     create: create,
     show: show,
-    updatePhotoProfile: updatePhotoProfile
+    updatePhotoProfile: updatePhotoProfile,
+    me: me
 };

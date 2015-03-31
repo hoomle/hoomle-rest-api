@@ -9,6 +9,7 @@ var objectHelper = require('../../helper/object');
 function mask(user) {
     return objectHelper.removeProperties([
         'password',
+        'createdAt',
         '__v'
     ], user);
 }

@@ -84,8 +84,30 @@ var updatePhotoProfile = function(photoName, slug, userId) {
         });
 };
 
+/**
+ * Get homepages by user ID
+ *
+ * @param {String} userId
+ */
+var findByUser = function(userId) {
+    return homepageDao
+        .findReadOnlyByUser(userId)
+        .then(function(homepages) {
+            return when.resolve(homepages);
+        }, function() {
+            return when.reject({
+                value: null,
+                bim: new InternalBim(
+                    errors.homepage.internal.code,
+                    errors.homepage.internal.message
+                )
+            });
+        });
+};
+
 module.exports = {
     create: create,
     findOneReadOnlyBySlugAndUser: findOneReadOnlyBySlugAndUser,
-    updatePhotoProfile: updatePhotoProfile
+    updatePhotoProfile: updatePhotoProfile,
+    findByUser: findByUser
 };

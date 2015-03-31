@@ -9,7 +9,8 @@ var objectHelper = require('../../helper/object');
 function mask(homepage) {
     return objectHelper.removeProperties([
         '__v',
-        'updatedAt'
+        'updatedAt',
+        'createdAt'
     ], homepage);
 }
 

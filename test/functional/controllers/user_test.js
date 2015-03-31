@@ -26,7 +26,6 @@ describe('Users controller', function() {
                             _id             : '5478f34eb576b4a30295d914',
                             email          : 'stanislas.chollet@gmail.com',
                             displayName     : 'Stan Chollet',
-                            createdAt       : '2014-11-28T22:12:30.182Z',
                             links           : [
                                 {
                                     href: 'http://localhost:5001/users/5478f34eb576b4a30295d914',

@@ -11,6 +11,7 @@ function Configuration() {
     this.host           = process.env.HOST || 'localhost';
     this.mongodb        = process.env.MONGODB_PATH || 'mongodb://localhost/hoomle';
     this.uploadAbsPath  = process.env.UPLOAD_PATH || '/tmp/hoomle-api-uploads';
+    this.staticUrl      = process.env.STATIC_URL || 'http://static.hoomle.dev';
     this.staticAbsPath  = process.env.STATIC_PATH || __dirname + '/../../static';
 }
 
